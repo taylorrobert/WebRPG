@@ -1,4 +1,4 @@
-﻿namespace Lib.Enums
+﻿namespace RPG.Lib.Enums
 {
     public enum TriggerMethod
     {

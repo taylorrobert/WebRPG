@@ -1,30 +1,20 @@
 ﻿using System.Collections.Generic;
+using RPG.Lib.Schema;
 
 namespace RPG.Models
 {
     public class MasterCharacterModel
     {
+        public int Id { get; set; }
         public Character Character { get; set; }
-        public Region Region { get; set; }
-        public Location Location { get; set; }
         public IEnumerable<QuestState> QuestStates { get; set; }
         public string Log { get; set; }
 
     }
 
-    public class Region
-    {
-        public string SchemaId { get; set; }
-    }
-
-    public class Location
-    {
-        public string SchemaId { get; set; }
-    }
-
     public class Quest
     {
-        public string SchemaId { get; set; }
+        public SchemaQuest SchemaQuest { get; set; }
         public string Id { get; set; }
         public string CharacterId { get; set; }
         public bool Active { get; set; }
@@ -35,7 +25,7 @@ namespace RPG.Models
 
     public class QuestState
     {
-        public string SchemaId { get; set; }
+        public Quest Quest { get; set; }
         public string Id { get; set; }
         public string CharacterId { get; set; }
         public bool Active { get; set; }
@@ -43,9 +33,9 @@ namespace RPG.Models
 
     public class DialogOption
     {
-        public string SchemaId { get; set; }
+        public SchemaDialogOption SchemaDialogOption { get; set; }
         public string Id { get; set; }
-        public string CharacterId { get; set; }
+        public Character Character { get; set; }
         public bool Active { get; set; }
         public string Message { get; set; }
         public int OptionChosen { get; set; }
@@ -53,9 +43,9 @@ namespace RPG.Models
 
     public class Trigger
     {
-        public string SchemaId { get; set; }
+        public SchemaTrigger SchemaTrigger { get; set; }
         public string Id { get; set; }
-        public string CharacterId { get; set; }
+        public Character Character { get; set; }
         public bool Triggered { get; set; }
     }
 }

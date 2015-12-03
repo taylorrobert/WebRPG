@@ -98,6 +98,142 @@ namespace RPG.Migrations
                     b.HasAnnotation("Relational:TableName", "AspNetUserRoles");
                 });
 
+            modelBuilder.Entity("RPG.Lib.Schema.SchemaDialogOption", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Message");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Option1Text");
+
+                    b.Property<int?>("Option1TriggerId");
+
+                    b.Property<string>("Option2Text");
+
+                    b.Property<int?>("Option2TriggerId");
+
+                    b.Property<string>("ReferenceName");
+
+                    b.HasKey("Id");
+                });
+
+            modelBuilder.Entity("RPG.Lib.Schema.SchemaLocation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("ReferenceName");
+
+                    b.Property<int?>("RegionId");
+
+                    b.HasKey("Id");
+                });
+
+            modelBuilder.Entity("RPG.Lib.Schema.SchemaQuest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("DiscoveryTeaser");
+
+                    b.Property<int?>("EndingQuestStateId");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("ReferenceName");
+
+                    b.Property<int?>("StartingQuestStateId");
+
+                    b.HasKey("Id");
+                });
+
+            modelBuilder.Entity("RPG.Lib.Schema.SchemaQuestState", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("BeginDialogOptionId");
+
+                    b.Property<int?>("CompleteDialogOptionId");
+
+                    b.Property<int?>("CompleteNextQuestStateId");
+
+                    b.Property<string>("Description");
+
+                    b.Property<int?>("FailDialogOptionId");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("QuestProgress");
+
+                    b.Property<string>("ReferenceName");
+
+                    b.Property<int?>("SchemaQuestId");
+
+                    b.HasKey("Id");
+                });
+
+            modelBuilder.Entity("RPG.Lib.Schema.SchemaRegion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("ReferenceName");
+
+                    b.HasKey("Id");
+                });
+
+            modelBuilder.Entity("RPG.Lib.Schema.SchemaTrigger", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("ReferenceName");
+
+                    b.Property<bool>("Repeatable");
+
+                    b.Property<int?>("SchemaDialogOptionId");
+
+                    b.Property<int?>("SchemaLocationId");
+
+                    b.Property<int?>("SchemaQuestId");
+
+                    b.Property<int?>("SchemaQuestStateId");
+
+                    b.Property<int?>("SchemaRegionId");
+
+                    b.Property<int?>("SchemaTriggerId");
+
+                    b.Property<string>("TargetReferenceName");
+
+                    b.Property<string>("TargetValue");
+
+                    b.Property<int>("TriggerAction");
+
+                    b.Property<int>("TriggerMethod");
+
+                    b.HasKey("Id");
+                });
+
             modelBuilder.Entity("RPG.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id");
@@ -153,29 +289,15 @@ namespace RPG.Migrations
 
                     b.Property<int>("Level");
 
+                    b.Property<int?>("LocationId");
+
                     b.Property<string>("Name");
 
                     b.Property<string>("PublicId");
 
+                    b.Property<int?>("RegionId");
+
                     b.Property<string>("UserId");
-
-                    b.HasKey("Id");
-                });
-
-            modelBuilder.Entity("RPG.Models.CharacterQuest", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int?>("CharacterId");
-
-                    b.Property<bool>("Complete");
-
-                    b.Property<int>("Progress");
-
-                    b.Property<string>("PublicId");
-
-                    b.Property<string>("QuestId");
 
                     b.HasKey("Id");
                 });
@@ -200,13 +322,13 @@ namespace RPG.Migrations
 
                     b.Property<bool>("Active");
 
-                    b.Property<string>("CharacterId");
+                    b.Property<int?>("CharacterId");
 
                     b.Property<string>("Message");
 
                     b.Property<int>("OptionChosen");
 
-                    b.Property<string>("SchemaId");
+                    b.Property<int?>("SchemaDialogOptionId");
 
                     b.HasKey("Id");
                 });
@@ -223,7 +345,7 @@ namespace RPG.Migrations
 
                     b.Property<bool>("IsCurrentQuest");
 
-                    b.Property<string>("SchemaId");
+                    b.Property<int?>("SchemaQuestId");
 
                     b.Property<bool>("ShowInQuestLog");
 
@@ -238,7 +360,7 @@ namespace RPG.Migrations
 
                     b.Property<string>("CharacterId");
 
-                    b.Property<string>("SchemaId");
+                    b.Property<string>("QuestId");
 
                     b.HasKey("Id");
                 });
@@ -257,9 +379,9 @@ namespace RPG.Migrations
                 {
                     b.Property<string>("Id");
 
-                    b.Property<string>("CharacterId");
+                    b.Property<int?>("CharacterId");
 
-                    b.Property<string>("SchemaId");
+                    b.Property<int?>("SchemaTriggerId");
 
                     b.Property<bool>("Triggered");
 
@@ -298,18 +420,134 @@ namespace RPG.Migrations
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("RPG.Models.Character", b =>
+            modelBuilder.Entity("RPG.Lib.Schema.SchemaDialogOption", b =>
                 {
-                    b.HasOne("RPG.Models.ApplicationUser")
+                    b.HasOne("RPG.Lib.Schema.SchemaTrigger")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("Option1TriggerId");
+
+                    b.HasOne("RPG.Lib.Schema.SchemaTrigger")
+                        .WithMany()
+                        .HasForeignKey("Option2TriggerId");
                 });
 
-            modelBuilder.Entity("RPG.Models.CharacterQuest", b =>
+            modelBuilder.Entity("RPG.Lib.Schema.SchemaLocation", b =>
+                {
+                    b.HasOne("RPG.Lib.Schema.SchemaRegion")
+                        .WithMany()
+                        .HasForeignKey("RegionId");
+                });
+
+            modelBuilder.Entity("RPG.Lib.Schema.SchemaQuest", b =>
+                {
+                    b.HasOne("RPG.Lib.Schema.SchemaQuestState")
+                        .WithMany()
+                        .HasForeignKey("EndingQuestStateId");
+
+                    b.HasOne("RPG.Lib.Schema.SchemaQuestState")
+                        .WithMany()
+                        .HasForeignKey("StartingQuestStateId");
+                });
+
+            modelBuilder.Entity("RPG.Lib.Schema.SchemaQuestState", b =>
+                {
+                    b.HasOne("RPG.Lib.Schema.SchemaDialogOption")
+                        .WithMany()
+                        .HasForeignKey("BeginDialogOptionId");
+
+                    b.HasOne("RPG.Lib.Schema.SchemaDialogOption")
+                        .WithMany()
+                        .HasForeignKey("CompleteDialogOptionId");
+
+                    b.HasOne("RPG.Lib.Schema.SchemaQuestState")
+                        .WithOne()
+                        .HasForeignKey("RPG.Lib.Schema.SchemaQuestState", "CompleteNextQuestStateId");
+
+                    b.HasOne("RPG.Lib.Schema.SchemaDialogOption")
+                        .WithMany()
+                        .HasForeignKey("FailDialogOptionId");
+
+                    b.HasOne("RPG.Lib.Schema.SchemaQuest")
+                        .WithMany()
+                        .HasForeignKey("SchemaQuestId");
+                });
+
+            modelBuilder.Entity("RPG.Lib.Schema.SchemaTrigger", b =>
+                {
+                    b.HasOne("RPG.Lib.Schema.SchemaDialogOption")
+                        .WithMany()
+                        .HasForeignKey("SchemaDialogOptionId");
+
+                    b.HasOne("RPG.Lib.Schema.SchemaLocation")
+                        .WithMany()
+                        .HasForeignKey("SchemaLocationId");
+
+                    b.HasOne("RPG.Lib.Schema.SchemaQuest")
+                        .WithMany()
+                        .HasForeignKey("SchemaQuestId");
+
+                    b.HasOne("RPG.Lib.Schema.SchemaQuestState")
+                        .WithMany()
+                        .HasForeignKey("SchemaQuestStateId");
+
+                    b.HasOne("RPG.Lib.Schema.SchemaRegion")
+                        .WithMany()
+                        .HasForeignKey("SchemaRegionId");
+
+                    b.HasOne("RPG.Lib.Schema.SchemaTrigger")
+                        .WithMany()
+                        .HasForeignKey("SchemaTriggerId");
+                });
+
+            modelBuilder.Entity("RPG.Models.Character", b =>
+                {
+                    b.HasOne("RPG.Lib.Schema.SchemaRegion")
+                        .WithMany()
+                        .HasForeignKey("LocationId");
+
+                    b.HasOne("RPG.Lib.Schema.SchemaRegion")
+                        .WithMany()
+                        .HasForeignKey("RegionId");
+
+                    b.HasOne("RPG.Models.ApplicationUser")
+                        .WithOne()
+                        .HasForeignKey("RPG.Models.Character", "UserId");
+                });
+
+            modelBuilder.Entity("RPG.Models.DialogOption", b =>
                 {
                     b.HasOne("RPG.Models.Character")
                         .WithMany()
                         .HasForeignKey("CharacterId");
+
+                    b.HasOne("RPG.Lib.Schema.SchemaDialogOption")
+                        .WithMany()
+                        .HasForeignKey("SchemaDialogOptionId");
+                });
+
+            modelBuilder.Entity("RPG.Models.Quest", b =>
+                {
+                    b.HasOne("RPG.Lib.Schema.SchemaQuest")
+                        .WithMany()
+                        .HasForeignKey("SchemaQuestId");
+                });
+
+            modelBuilder.Entity("RPG.Models.QuestState", b =>
+                {
+                    b.HasOne("RPG.Models.Quest")
+                        .WithMany()
+                        .HasForeignKey("QuestId");
+                });
+
+            modelBuilder.Entity("RPG.Models.Trigger", b =>
+                {
+                    b.HasOne("RPG.Models.Character")
+                        .WithMany()
+                        .HasForeignKey("CharacterId");
+
+                    b.HasOne("RPG.Lib.Schema.SchemaTrigger")
+                        .WithMany()
+                        .HasForeignKey("SchemaTriggerId");
                 });
         }
     }

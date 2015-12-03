@@ -14,9 +14,12 @@ namespace RPG.Services
             return context.Characters.FirstOrDefault(c => c.PublicId == publicId);
         }
 
-        public static MasterCharacterModel GetInitialState(string userId)
+        public static MasterCharacterModel GetInitialState(string userId, ApplicationDbContext context)
         {
             var mcm = new MasterCharacterModel();
+
+            var firstOrDefault = context.Characters.FirstOrDefault(c => c.User.Id == userId);
+
 
             return null;
         }

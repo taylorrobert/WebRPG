@@ -52,29 +52,9 @@ namespace RPG.Models
             context.Characters.Add(character);
 
 
-            var quest1 = new CharacterQuest
-            {
-
-                Character = character,
-                Complete = false,
-                Progress = 10,
-                QuestId = "QUEST_1"
-            };
-
-            var quest2 = new CharacterQuest
-            {
-                Character = character,
-                Complete = true,
-                Progress = 500,
-                QuestId = "QUEST_2"
-            };
-
-            context.CharacterQuests.Add(quest2);
-            context.CharacterQuests.Add(quest1);
+            user.ActiveCharacter = character;
 
             context.SaveChanges();
-
-            context.Characters.First().Quests.ToList();
         }
     }
 }

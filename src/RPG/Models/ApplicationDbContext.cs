@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Data.Entity;
+using RPG.Lib.Schema;
 
 namespace RPG.Models
 {
@@ -11,12 +12,19 @@ namespace RPG.Models
     {
         public DbSet<Dev> Dev { get; set; }
         public DbSet<Character> Characters { get; set; }
-        public DbSet<CharacterQuest> CharacterQuests { get; set; }
         public DbSet<SystemData> SystemData { get; set; }
         public DbSet<Trigger> Triggers { get; set; }
         public DbSet<DialogOption> DialogOptions { get; set; }
         public DbSet<QuestState> QuestStates { get; set; }
         public DbSet<Quest> Quests { get; set; }
+
+
+        public DbSet<SchemaRegion> SchemaRegions { get; set; }
+        public DbSet<SchemaLocation> SchemaLocations { get; set; }
+        public DbSet<SchemaQuest> SchemaQuests { get; set; }
+        public DbSet<SchemaQuestState> SchemaQuestStates { get; set; }
+        public DbSet<SchemaDialogOption> SchemaDialogOptions { get; set; }
+        public DbSet<SchemaTrigger> SchemaTriggers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
