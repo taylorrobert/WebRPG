@@ -5,7 +5,7 @@ using Microsoft.Data.Entity.Metadata;
 
 namespace RPG.Migrations
 {
-    public partial class init5 : Migration
+    public partial class init123 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -59,6 +59,75 @@ namespace RPG.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Dev", x => x.Id);
+                });
+            migrationBuilder.CreateTable(
+                name: "DialogOption",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Active = table.Column<bool>(nullable: false),
+                    CharacterId = table.Column<string>(nullable: true),
+                    Message = table.Column<string>(nullable: true),
+                    OptionChosen = table.Column<int>(nullable: false),
+                    SchemaId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DialogOption", x => x.Id);
+                });
+            migrationBuilder.CreateTable(
+                name: "Quest",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Active = table.Column<bool>(nullable: false),
+                    CharacterId = table.Column<string>(nullable: true),
+                    Complete = table.Column<bool>(nullable: false),
+                    IsCurrentQuest = table.Column<bool>(nullable: false),
+                    SchemaId = table.Column<string>(nullable: true),
+                    ShowInQuestLog = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Quest", x => x.Id);
+                });
+            migrationBuilder.CreateTable(
+                name: "QuestState",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Active = table.Column<bool>(nullable: false),
+                    CharacterId = table.Column<string>(nullable: true),
+                    SchemaId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_QuestState", x => x.Id);
+                });
+            migrationBuilder.CreateTable(
+                name: "SystemData",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    MasterSchema = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SystemData", x => x.Id);
+                });
+            migrationBuilder.CreateTable(
+                name: "Trigger",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    CharacterId = table.Column<string>(nullable: true),
+                    SchemaId = table.Column<string>(nullable: true),
+                    Triggered = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Trigger", x => x.Id);
                 });
             migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
@@ -207,6 +276,11 @@ namespace RPG.Migrations
             migrationBuilder.DropTable("AspNetUserRoles");
             migrationBuilder.DropTable("CharacterQuest");
             migrationBuilder.DropTable("Dev");
+            migrationBuilder.DropTable("DialogOption");
+            migrationBuilder.DropTable("Quest");
+            migrationBuilder.DropTable("QuestState");
+            migrationBuilder.DropTable("SystemData");
+            migrationBuilder.DropTable("Trigger");
             migrationBuilder.DropTable("AspNetRoles");
             migrationBuilder.DropTable("Character");
             migrationBuilder.DropTable("AspNetUsers");

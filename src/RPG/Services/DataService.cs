@@ -9,9 +9,16 @@ namespace RPG.Services
 {
     public static class DataService
     {
-        public static Character GetCharacter(ApplicationDbContext context, string publicId)
+        public static Character GetCharacterStatus(ApplicationDbContext context, string publicId)
         {
             return context.Characters.FirstOrDefault(c => c.PublicId == publicId);
+        }
+
+        public static MasterCharacterModel GetInitialState(string userId)
+        {
+            var mcm = new MasterCharacterModel();
+
+            return null;
         }
     }
 }

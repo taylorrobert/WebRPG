@@ -9,9 +9,14 @@ namespace RPG.Models
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public DbSet<Dev> Dev { get; set; } 
-        public DbSet<Character> Characters { get; set; } 
-        public DbSet<CharacterQuest> CharacterQuests { get; set; } 
+        public DbSet<Dev> Dev { get; set; }
+        public DbSet<Character> Characters { get; set; }
+        public DbSet<CharacterQuest> CharacterQuests { get; set; }
+        public DbSet<SystemData> SystemData { get; set; }
+        public DbSet<Trigger> Triggers { get; set; }
+        public DbSet<DialogOption> DialogOptions { get; set; }
+        public DbSet<QuestState> QuestStates { get; set; }
+        public DbSet<Quest> Quests { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

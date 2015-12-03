@@ -8,8 +8,8 @@ using RPG.Models;
 namespace RPG.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20151202035848_init5")]
-    partial class init5
+    [Migration("20151203012908_init123")]
+    partial class init123
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -191,6 +191,78 @@ namespace RPG.Migrations
                     b.Property<string>("ProductName");
 
                     b.Property<string>("Version");
+
+                    b.HasKey("Id");
+                });
+
+            modelBuilder.Entity("RPG.Models.DialogOption", b =>
+                {
+                    b.Property<string>("Id");
+
+                    b.Property<bool>("Active");
+
+                    b.Property<string>("CharacterId");
+
+                    b.Property<string>("Message");
+
+                    b.Property<int>("OptionChosen");
+
+                    b.Property<string>("SchemaId");
+
+                    b.HasKey("Id");
+                });
+
+            modelBuilder.Entity("RPG.Models.Quest", b =>
+                {
+                    b.Property<string>("Id");
+
+                    b.Property<bool>("Active");
+
+                    b.Property<string>("CharacterId");
+
+                    b.Property<bool>("Complete");
+
+                    b.Property<bool>("IsCurrentQuest");
+
+                    b.Property<string>("SchemaId");
+
+                    b.Property<bool>("ShowInQuestLog");
+
+                    b.HasKey("Id");
+                });
+
+            modelBuilder.Entity("RPG.Models.QuestState", b =>
+                {
+                    b.Property<string>("Id");
+
+                    b.Property<bool>("Active");
+
+                    b.Property<string>("CharacterId");
+
+                    b.Property<string>("SchemaId");
+
+                    b.HasKey("Id");
+                });
+
+            modelBuilder.Entity("RPG.Models.SystemData", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("MasterSchema");
+
+                    b.HasKey("Id");
+                });
+
+            modelBuilder.Entity("RPG.Models.Trigger", b =>
+                {
+                    b.Property<string>("Id");
+
+                    b.Property<string>("CharacterId");
+
+                    b.Property<string>("SchemaId");
+
+                    b.Property<bool>("Triggered");
 
                     b.HasKey("Id");
                 });
