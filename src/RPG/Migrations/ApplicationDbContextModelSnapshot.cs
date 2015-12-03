@@ -167,11 +167,13 @@ namespace RPG.Migrations
 
                     b.Property<int?>("CompleteDialogOptionId");
 
-                    b.Property<int?>("CompleteNextQuestStateId");
+                    b.Property<string>("CompletedNextQuestState");
 
                     b.Property<string>("Description");
 
                     b.Property<int?>("FailDialogOptionId");
+
+                    b.Property<string>("FailedNextQuestState");
 
                     b.Property<string>("Name");
 
@@ -458,10 +460,6 @@ namespace RPG.Migrations
                     b.HasOne("RPG.Lib.Schema.SchemaDialogOption")
                         .WithMany()
                         .HasForeignKey("CompleteDialogOptionId");
-
-                    b.HasOne("RPG.Lib.Schema.SchemaQuestState")
-                        .WithOne()
-                        .HasForeignKey("RPG.Lib.Schema.SchemaQuestState", "CompleteNextQuestStateId");
 
                     b.HasOne("RPG.Lib.Schema.SchemaDialogOption")
                         .WithMany()

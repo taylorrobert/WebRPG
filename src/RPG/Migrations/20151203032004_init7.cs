@@ -5,7 +5,7 @@ using Microsoft.Data.Entity.Metadata;
 
 namespace RPG.Migrations
 {
-    public partial class init123 : Migration
+    public partial class init7 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -295,9 +295,10 @@ namespace RPG.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     BeginDialogOptionId = table.Column<int>(nullable: true),
                     CompleteDialogOptionId = table.Column<int>(nullable: true),
-                    CompleteNextQuestStateId = table.Column<int>(nullable: true),
+                    CompletedNextQuestState = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     FailDialogOptionId = table.Column<int>(nullable: true),
+                    FailedNextQuestState = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: true),
                     QuestProgress = table.Column<int>(nullable: false),
                     ReferenceName = table.Column<string>(nullable: true),
@@ -316,12 +317,6 @@ namespace RPG.Migrations
                         name: "FK_SchemaQuestState_SchemaDialogOption_CompleteDialogOptionId",
                         column: x => x.CompleteDialogOptionId,
                         principalTable: "SchemaDialogOption",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_SchemaQuestState_SchemaQuestState_CompleteNextQuestStateId",
-                        column: x => x.CompleteNextQuestStateId,
-                        principalTable: "SchemaQuestState",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(

@@ -47,9 +47,9 @@ namespace RPG.Lib.Schema
         public int QuestProgress { get; set; }
         public SchemaDialogOption BeginDialogOption { get; set; }
         public SchemaDialogOption CompleteDialogOption { get; set; }
-        public SchemaQuestState CompleteNextQuestState { get; set; }
+        public string CompletedNextQuestStateReferenceName { get; set; }
         public SchemaDialogOption FailDialogOption { get; set; }
-        public SchemaQuestState FailNextQuestState { get; set; }
+        public string FailedNextQuestStateReferenceName { get; set; }
     }
 
     
