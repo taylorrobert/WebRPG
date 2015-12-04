@@ -1,25 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using Microsoft.AspNet.Mvc;
+using Microsoft.AspNet.Mvc.Rendering;
+using Microsoft.Data.Entity;
 using RPG.Models;
 using RPG.Services;
-
-// For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+using RPG.ViewModels.Action;
 
 namespace RPG.Controllers
 {
-    public class ActionController : Controller
+    public class ActionController : BaseController
     {
-        private ApplicationDbContext _context;
+        public ActionController(ApplicationDbContext context) : base(context)
+        {
+            
+        }
 
-        // GET: /<controller>/
+        // GET: Action
         public IActionResult Index()
         {
-            var state = DataService.GetInitialState(User.GetUserId(), _context);
-            return View();
+            if (!User.IsSignedIn()) return RedirectToAction("Login", "Account");
+
+            var currentCharacterPublicId = HttpContext.Request.Cookies["CURRENT_CHARACTER_PUBLIC_ID"];
+
+            if (string.IsNullOrEmpty(currentCharacterPublicId)) return RedirectToAction("Index", "Characters");
+
+            var characters = DataService.GetCharactersByUser(_context, User.GetUserName().ToUpper());
+            if (!characters.Select(c => c.PublicId).ToList().Contains(currentCharacterPublicId.ToString())) return RedirectToAction("Index", "Characters");
+
+            var actionModel = new ActionModel();
+            actionModel.Character = characters.FirstOrDefault(c => c.PublicId == currentCharacterPublicId.ToString());
+            
+            return View(actionModel);
+        }
+
+        public IActionResult CharacterSelect()
+        {
+            var characters = DataService.GetCharactersByUser(_context, User.GetUserName().ToUpper());
+            return View(characters);
         }
     }
 }

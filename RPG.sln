@@ -12,7 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "RPG", "src\RPG\RPG.xproj", "{E806B186-2748-48DA-83E0-4FDE4AEEBA29}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Toolkit", "src\Toolkit\Toolkit.csproj", "{76793A9A-2C39-4433-8849-A4CFBFC2EC35}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Toolkit", "..\..\..\..\..\Programming Projects\WebRPG2\WebRPG\src\Toolkit\Toolkit.csproj", "{76793A9A-2C39-4433-8849-A4CFBFC2EC35}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

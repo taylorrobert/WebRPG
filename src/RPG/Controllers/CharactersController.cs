@@ -1,18 +1,18 @@
 using System.Linq;
+using System.Security.Claims;
 using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.Rendering;
 using Microsoft.Data.Entity;
 using RPG.Models;
+using RPG.Services;
 
 namespace RPG.Controllers
 {
-    public class CharactersController : Controller
+    public class CharactersController : BaseController
     {
-        private ApplicationDbContext _context;
-
-        public CharactersController(ApplicationDbContext context)
+        public CharactersController(ApplicationDbContext context) : base(context)
         {
-            _context = context;    
+            
         }
 
         // GET: Characters
@@ -51,7 +51,12 @@ namespace RPG.Controllers
         {
             if (ModelState.IsValid)
             {
+                character.User = _applicationUser;
+                character.Location = ActionService.GetStartingLocation(_context);
+                character.Region = ActionService.GetStartingRegion(_context);
+
                 _context.Characters.Add(character);
+
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }

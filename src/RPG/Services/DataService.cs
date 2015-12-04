@@ -2,26 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Data.Entity;
 using RPG.Models;
 
 namespace RPG.Services
 {
-    public static class DataService
+    public class DataService
     {
-        public static Character GetCharacterStatus(ApplicationDbContext context, string publicId)
+        public static List<Character> GetCharactersByUser(ApplicationDbContext context, string user)
         {
-            return context.Characters.FirstOrDefault(c => c.PublicId == publicId);
-        }
-
-        public static MasterCharacterModel GetInitialState(string userId, ApplicationDbContext context)
-        {
-            var mcm = new MasterCharacterModel();
-
-            var firstOrDefault = context.Characters.FirstOrDefault(c => c.User.Id == userId);
-
-
-            return null;
-        }
+            return context.Characters.Where(c => c.User.UserName.ToUpper() == user.ToUpper()).ToList();
+        } 
     }
 }

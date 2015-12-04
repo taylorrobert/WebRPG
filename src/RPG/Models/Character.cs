@@ -18,6 +18,6 @@ namespace RPG.Models
 
         public ApplicationUser User { get; set; }
         public SchemaRegion Region { get; set; }
-        public SchemaRegion Location { get; set; }
+        public SchemaLocation Location { get; set; }
     }
 }

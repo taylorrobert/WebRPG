@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using RPG.Lib.Schema;
+using RPG.Services;
 
 namespace RPG.Models
 {
@@ -11,6 +13,8 @@ namespace RPG.Models
         public static void InitializeIfFreshDB(IServiceProvider serviceProvider)
         {
             var context = serviceProvider.GetService<ApplicationDbContext>();
+
+            SchemaService.ConfigureTestSchema(context);
 
             //If this table is empty, we know the DB is fresh
             if (context.Dev.FirstOrDefault() != null) return;
@@ -42,17 +46,17 @@ namespace RPG.Models
 
             context.Users.Add(user);
 
-            var character = new Character
-            {
-                Level = 1,
-                Name = "Agamemnon",
-                User = user
-            };
+            //var character = new Character
+            //{
+            //    Level = 1,
+            //    Name = "Agamemnon",
+            //    User = user
+            //};
             
-            context.Characters.Add(character);
+            //context.Characters.Add(character);
 
 
-            user.ActiveCharacter = character;
+            //user.ActiveCharacter = character;
 
             context.SaveChanges();
         }
