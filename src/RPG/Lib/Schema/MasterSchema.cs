@@ -48,9 +48,9 @@ namespace RPG.Lib.Schema
         public int QuestProgress { get; set; }
         public SchemaDialogOption BeginDialogOption { get; set; }
         public SchemaDialogOption CompleteDialogOption { get; set; }
-        public string CompletedNextQuestStateReferenceName { get; set; }
+        public SchemaQuestState CompleteNextQuestState { get; set; }
         public SchemaDialogOption FailDialogOption { get; set; }
-        public string FailedNextQuestStateReferenceName { get; set; }
+        public SchemaQuestState FailNextQuestState { get; set; }
     }
 
     
@@ -69,7 +69,8 @@ namespace RPG.Lib.Schema
     {
         public ICollection<SchemaQuestState> QuestStates { get; set; }
         public SchemaQuestState StartingQuestState { get; set; }
-        public SchemaQuestState EndingQuestState { get; set; }
+        public SchemaQuestState EndingQuestStateSuccess { get; set; }
+        public SchemaQuestState EndingQuestStateFailure { get; set; }
 
         //Used to alert the player that this quest can be picked up
         public string DiscoveryTeaser { get; set; }
@@ -79,6 +80,9 @@ namespace RPG.Lib.Schema
     {
         public TriggerMethod TriggerMethod { get; set; }
         public TriggerAction TriggerAction { get; set; }
+        public TriggererType TriggererType { get; set; }
+        public SchemaLocation Location { get; set; }
+        public string TriggerOwner { get; set; }
         public string TargetReferenceName { get; set; }
         public string TargetValue { get; set; }
         public bool Repeatable { get; set; }

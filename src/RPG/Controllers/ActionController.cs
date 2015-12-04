@@ -22,15 +22,20 @@ namespace RPG.Controllers
         {
             if (!User.IsSignedIn()) return RedirectToAction("Login", "Account");
 
-            var currentCharacterPublicId = HttpContext.Request.Cookies["CURRENT_CHARACTER_PUBLIC_ID"];
-
-            if (string.IsNullOrEmpty(currentCharacterPublicId)) return RedirectToAction("Index", "Characters");
+            if (string.IsNullOrEmpty(_applicationUser.ActiveCharacter.PublicId)) return RedirectToAction("Index", "Characters");
 
             var characters = DataService.GetCharactersByUser(_context, User.GetUserName().ToUpper());
-            if (!characters.Select(c => c.PublicId).ToList().Contains(currentCharacterPublicId.ToString())) return RedirectToAction("Index", "Characters");
+            if (!characters.Select(c => c.PublicId).ToList().Contains(_applicationUser.ActiveCharacter.PublicId)) return RedirectToAction("Index", "Characters");
 
             var actionModel = new ActionModel();
-            actionModel.Character = characters.FirstOrDefault(c => c.PublicId == currentCharacterPublicId.ToString());
+            actionModel.Character = _applicationUser.ActiveCharacter;
+
+            if (_applicationUser.ActiveCharacter.Region == null && _applicationUser.ActiveCharacter.Location == null)
+            {
+                //Character has never logged in before
+                SchemaService.ConfigureCharacterFirstLogin(_context, _applicationUser.ActiveCharacter, actionModel);
+                _context.SaveChanges();
+            }
             
             return View(actionModel);
         }

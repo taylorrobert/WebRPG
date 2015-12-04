@@ -14,6 +14,7 @@ namespace RPG.Models
             
         }
 
+        public bool IsAdmin { get; set; }
         public Character ActiveCharacter { get; set; }
     }
 }

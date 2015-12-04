@@ -16,7 +16,6 @@ namespace RPG.Models
         public DbSet<SystemData> SystemData { get; set; }
         public DbSet<Trigger> Triggers { get; set; }
         public DbSet<DialogOption> DialogOptions { get; set; }
-        public DbSet<QuestState> QuestStates { get; set; }
         public DbSet<Quest> Quests { get; set; }
 
 

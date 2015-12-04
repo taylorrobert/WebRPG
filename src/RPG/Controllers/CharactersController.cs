@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Security.Claims;
 using Microsoft.AspNet.Mvc;
@@ -52,13 +53,15 @@ namespace RPG.Controllers
             if (ModelState.IsValid)
             {
                 character.User = _applicationUser;
-                character.Location = ActionService.GetStartingLocation(_context);
-                character.Region = ActionService.GetStartingRegion(_context);
+                character.PublicId = Guid.NewGuid().ToString();
 
                 _context.Characters.Add(character);
 
                 _context.SaveChanges();
-                return RedirectToAction("Index");
+
+                _applicationUser.ActiveCharacter = character;
+
+                return RedirectToAction("Index", "Action");
             }
             return View(character);
         }

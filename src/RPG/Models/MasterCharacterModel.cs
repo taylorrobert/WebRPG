@@ -1,35 +1,42 @@
 ﻿using System.Collections.Generic;
+using RPG.Lib.Enums;
 using RPG.Lib.Schema;
 
 namespace RPG.Models
 {
-    public class MasterCharacterModel
-    {
-        public int Id { get; set; }
-        public Character Character { get; set; }
-        public IEnumerable<QuestState> QuestStates { get; set; }
-        public string Log { get; set; }
-
-    }
-
     public class Quest
     {
+        public Quest(SchemaQuest schemaQuest, Character character)
+        {
+            SchemaQuest = schemaQuest;
+            Character = character;
+        }
+
         public SchemaQuest SchemaQuest { get; set; }
         public string Id { get; set; }
-        public string CharacterId { get; set; }
+        public Character Character { get; set; }
         public bool Active { get; set; }
         public bool IsCurrentQuest { get; set; }
-        public bool Complete { get; set; }
+        public QuestResult Status { get; set; }
         public bool ShowInQuestLog { get; set; }
+        public SchemaQuestState ActiveQuestState { get; set; }
     }
 
-    public class QuestState
-    {
-        public Quest Quest { get; set; }
-        public string Id { get; set; }
-        public string CharacterId { get; set; }
-        public bool Active { get; set; }
-    }
+    //public class QuestState
+    //{
+    //    public QuestState(Quest quest, SchemaQuestState schemaQuestState)
+    //    {
+    //        Quest = quest;
+    //        SchemaQuestState = schemaQuestState;
+    //    }
+
+    //    public SchemaQuestState SchemaQuestState { get; set; }
+    //    public Quest Quest { get; set; }
+    //    public string Id { get; set; }
+    //    public Character Character { get; set; }
+    //    public bool Active { get; set; }
+    //    public bool Started { get; set; }
+    //}
 
     public class DialogOption
     {

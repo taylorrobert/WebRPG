@@ -1,16 +1,154 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using RPG.Lib;
 using RPG.Lib.Enums;
 using RPG.Lib.Schema;
 using RPG.Models;
+using RPG.ViewModels.Action;
+using ActionModel = RPG.ViewModels.Action.ActionModel;
 
 namespace RPG.Services
 {
     public static class SchemaService
     {
+        public static void AdvanceActionModel(ApplicationDbContext context, ActionModel model)
+        {
+            //Lists for the output
+            var advancedQuests = new List<QuestStatusResult>();
+            var possibleTriggers = new List<TriggerResult>();
+
+            //Handle quests
+            foreach (var questName in model.QuestsToStart)
+            {
+                possibleTriggers.Add(BeginQuest(context, questName, model.Character));
+            }
+            model.QuestsToStart = new List<string>(); //Clean up quests
+
+            foreach (var q in model.QuestsToAdvance) // Add triggers for exiting quest stages
+            {
+                possibleTriggers.Add(new TriggerResult(q.Quest.ActiveQuestState.ReferenceName,
+                    TriggerMethod.OnExitQuestState, TriggererType.QuestStatus));
+            }
+
+            foreach (var questResult in model.QuestsToAdvance) //Set the next quest state to the correct one based on whether the quest completed or failed
+            {
+                if (!model.Quests.Select(q => q.Id).Contains(questResult.Quest.Id))
+                    throw new Exception("WTF. You don't have quest " + questResult.Quest.SchemaQuest.ReferenceName);
+
+                questResult.Quest.ActiveQuestState = questResult.Completed
+                    ? questResult.Quest.ActiveQuestState.CompleteNextQuestState
+                    : questResult.Quest.ActiveQuestState.FailNextQuestState;
+
+                if (questResult.Quest.ActiveQuestState.ReferenceName ==
+                    questResult.Quest.SchemaQuest.EndingQuestStateSuccess.ReferenceName)
+                {
+                    questResult.Quest.Status = QuestResult.Success;
+                    possibleTriggers.Add(new TriggerResult(questResult.Quest.SchemaQuest.ReferenceName,
+                    TriggerMethod.OnQuestComplete, TriggererType.Quest));
+                }
+                else if (questResult.Quest.ActiveQuestState.ReferenceName ==
+                         questResult.Quest.SchemaQuest.EndingQuestStateFailure.ReferenceName)
+                {
+                    questResult.Quest.Status = QuestResult.Fail;
+                    possibleTriggers.Add(new TriggerResult(questResult.Quest.SchemaQuest.ReferenceName,
+                    TriggerMethod.OnQuestFailed, TriggererType.Quest));
+                }
+                else questResult.Quest.Status = QuestResult.InProgress;
+
+
+                advancedQuests.Add(questResult);
+            }
+
+            foreach (var q in model.QuestsToAdvance) // Add triggers for entering quest stages
+            {
+                possibleTriggers.Add(new TriggerResult(q.Quest.ActiveQuestState.ReferenceName,
+                    TriggerMethod.OnEnterQuestState, TriggererType.QuestStatus));
+            }
+            context.SaveChanges();
+
+
+            //Handle triggers
+            foreach (var t in possibleTriggers)
+            {
+                var hit = HasTriggered(context, t, model.Triggers);
+                if (hit != null)
+                {
+                    hit.Triggered = true;
+                }
+            }
+
+            model.Triggers = GetTriggersForLocation(context, model.Character, model.Location);
+        }
+
+        public static Trigger HasTriggered(ApplicationDbContext context, TriggerResult possibleTrigger, List<Trigger> triggers)
+        {
+            var hit =
+                triggers.FirstOrDefault(
+                    t =>
+                        t.Triggered == false && t.SchemaTrigger.TriggerOwner == possibleTrigger.TriggererReferenceName &&
+                        t.SchemaTrigger.TriggererType == possibleTrigger.TriggererType &&
+                        t.SchemaTrigger.TriggerMethod == possibleTrigger.TriggerMethod);
+
+            return hit;
+        }
+
+        public static TriggerResult BeginQuest(ApplicationDbContext context, string referenceName, Character character)
+        {
+            var questSchema = context.SchemaQuests.FirstOrDefault(s => s.ReferenceName == referenceName);
+
+            if (questSchema == null)
+                throw new Exception("Unable to find quest with reference ID: " + referenceName);
+
+            var q = new Quest(questSchema, character);
+            q.Active = true;
+            q.ShowInQuestLog = true;
+            q.Status = QuestResult.InProgress;
+            q.ActiveQuestState = q.SchemaQuest.StartingQuestState;
+            context.Quests.Add(q);
+            context.SaveChanges();
+
+            return new TriggerResult(referenceName, TriggerMethod.OnBeginQuest, TriggererType.Quest);
+        }
+
+        public static List<Trigger> GetTriggersForLocation(ApplicationDbContext context, Character character,
+            SchemaLocation location)
+        {
+            var newTriggers = new List<Trigger>();
+
+            var triggers =
+                context.Triggers.Where(s => s.SchemaTrigger.Location.ReferenceName == location.ReferenceName).ToList();
+
+            var newTriggerSchemas =
+                context.SchemaTriggers.Where(
+                    st =>
+                        st.Location.ReferenceName == location.ReferenceName &&
+                        !triggers.Select(t => t.SchemaTrigger.ReferenceName).Contains(st.ReferenceName)).ToList();
+
+            foreach (var t in newTriggerSchemas)
+            {
+                newTriggers.Add(new Trigger
+                {
+                    Character = character,
+                    SchemaTrigger = t,
+                    Triggered = false
+                });
+            }
+
+            context.Add(newTriggers);
+            context.SaveChanges();
+
+            return context.Triggers.Where(s => s.SchemaTrigger.Location.ReferenceName == location.ReferenceName).ToList();
+        } 
+
+        public static void ConfigureCharacterFirstLogin(ApplicationDbContext context, Character character, ActionModel model)
+        {
+            character.Location = DataService.GetStartingLocation(context);
+            character.Region = DataService.GetStartingRegion(context);
+
+            model.QuestsToStart.Add(Constants.StartingQuestName);
+        }
+
         public static void ConfigureTestSchema(ApplicationDbContext context)
         {
             var region = new SchemaRegion();

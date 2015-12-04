@@ -8,8 +8,11 @@
         OnQuestComplete = 3,
         OnDialogYes = 4,
         OnDialogNo = 5,
-        OnEnterQuestState = 6,
-        OnQuestStatusEquals = 7
+        OnExitQuestState = 6,
+        OnQuestStatusEquals = 7,
+        OnBeginQuest = 8,
+        OnQuestFailed = 9,
+        OnEnterQuestState = 10
     }
 
     public enum TriggerAction
@@ -20,5 +23,20 @@
         AdvanceQuestState = 3,
         OpenDialog = 4,
         ExitDialog = 5
+    }
+
+    public enum TriggererType
+    {
+        None = 0,
+        Quest = 1,
+        QuestStatus = 2,
+        Location = 3
+    }
+
+    public enum QuestResult
+    {
+        InProgress = 0,
+        Success = 1,
+        Fail = 2
     }
 }
