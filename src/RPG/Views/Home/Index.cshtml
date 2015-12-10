@@ -107,4 +107,16 @@
             <li><a href="http://go.microsoft.com/fwlink/?LinkID=398609">Publish to Microsoft Azure Web Apps</a></li>
         </ul>
     </div>
+
+    <h2>Kendo UI DatePicker</h2>
+
+    @(Html.Kendo().DatePicker()
+            .Name("datepicker")
+            .Deferred()
+    )
+
+    @* All initialization scripts are rendered to the bottom of the page, see Layout.cshtml *@
+    @section scripts {
+        @Html.Kendo().DeferredScripts()
+    }
 </div>
