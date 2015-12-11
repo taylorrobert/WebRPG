@@ -1,67 +1,189 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims
+@using Microsoft.Extensions.Configuration
+<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>@ViewData["Title"] - RPG</title>
 
-        <environment names="Development">
-            <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-            <link rel="stylesheet" href="~/css/site.css" />
-        </environment>
-        <environment names="Staging,Production">
-            <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/css/bootstrap.min.css"
-                  asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-                  asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-            <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
-        </environment>
+            <link rel="stylesheet"
+                  href="https://kendo.cdn.telerik.com/2015.3.1111/styles/kendo.common-nova.min.css" />
+
+            <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2015.3.1111/styles/kendo.nova.min.css"/>
+            <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/css/bootstrap.min.css"/>
+            <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+        
+            <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.1.4.min.js"></script>
+            <script src="https://kendo.cdn.telerik.com/2015.3.1111/js/kendo.all.min.js"></script>
+            <script src="https://kendo.cdn.telerik.com/2015.3.1111/js/kendo.aspnetmvc.min.js"></script>
+            <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/bootstrap.min.js"></script>
+
+            <link href="//kendo.cdn.telerik.com/2015.3.1111/styles/kendo.common-material.min.css" rel="stylesheet" />
+            <link href="//kendo.cdn.telerik.com/2015.3.1111/styles/kendo.rtl.min.css" rel="stylesheet" />
+            <link href="//kendo.cdn.telerik.com/2015.3.1111/styles/kendo.material.min.css" rel="stylesheet" />
+   
+            <link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css">
+
     </head>
-    <body>
-        <div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
+<body>
+
+    <div id="wrapper">
+
+        
+
+            <!-- Navigation -->
+            <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+                <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a asp-controller="Home" asp-action="Index" class="navbar-brand">RPG</a>
+                    <a class="navbar-brand" asp-controller="Home" asp-action="Index">Space Corporation Simulator</a>
                 </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li><a asp-controller="Home" asp-action="Index">Home</a></li>
-                        <li><a asp-controller="Action" asp-action="Index">Play</a></li>
-                    </ul>
+                <!-- Top Menu Items -->
+                <ul class="nav navbar-right top-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> <b class="caret"></b></a>
+                        <ul class="dropdown-menu message-dropdown">
+                            <li class="message-preview">
+                                <a href="#">
+                                    <div class="media">
+                                        <span class="pull-left">
+                                            <img class="media-object" src="http://placehold.it/50x50" alt="">
+                                        </span>
+                                        <div class="media-body">
+                                            <h5 class="media-heading">
+                                                <strong>@User.GetUserName()</strong>
+                                            </h5>
+                                            <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM
+                                            </p>
+                                            <p>Lorem ipsum dolor sit amet, consectetur...</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="message-preview">
+                                <a href="#">
+                                    <div class="media">
+                                        <span class="pull-left">
+                                            <img class="media-object" src="http://placehold.it/50x50" alt="">
+                                        </span>
+                                        <div class="media-body">
+                                            <h5 class="media-heading">
+                                                <strong>@User.GetUserName()</strong>
+                                            </h5>
+                                            <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM
+                                            </p>
+                                            <p>Lorem ipsum dolor sit amet, consectetur...</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="message-preview">
+                                <a href="#">
+                                    <div class="media">
+                                        <span class="pull-left">
+                                            <img class="media-object" src="http://placehold.it/50x50" alt="">
+                                        </span>
+                                        <div class="media-body">
+                                            <h5 class="media-heading">
+                                                <strong>@User.GetUserName()</strong>
+                                            </h5>
+                                            <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM
+                                            </p>
+                                            <p>Lorem ipsum dolor sit amet, consectetur...</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="message-footer">
+                                <a href="#">Read All New Messages</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i> <b class="caret"></b></a>
+                        <ul class="dropdown-menu alert-dropdown">
+                            <li>
+                                <a href="#">Alert Name <span class="label label-default">Alert Badge</span></a>
+                            </li>
+                            <li>
+                                <a href="#">Alert Name <span class="label label-primary">Alert Badge</span></a>
+                            </li>
+                            <li>
+                                <a href="#">Alert Name <span class="label label-success">Alert Badge</span></a>
+                            </li>
+                            <li>
+                                <a href="#">Alert Name <span class="label label-info">Alert Badge</span></a>
+                            </li>
+                            <li>
+                                <a href="#">Alert Name <span class="label label-warning">Alert Badge</span></a>
+                            </li>
+                            <li>
+                                <a href="#">Alert Name <span class="label label-danger">Alert Badge</span></a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="#">View All</a>
+                            </li>
+                        </ul>
+                    </li>
                     @await Html.PartialAsync("_LoginPartial")
-                </div>
-            </div>
-        </div>
-        <div class="container body-content">
-            @RenderBody()
-            <hr />
-            <footer>
-                <p>&copy; 2015 - RPG</p>
-            </footer>
-        </div>
+                </ul>
+                <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+                <div class="collapse navbar-collapse navbar-ex1-collapse">
+                    <ul class="nav navbar-nav side-nav">
+                        <li class="active">
+                            <a href="index.html" style="font-size: 20px"><i class="fa fa-fw fa-dashboard" style="font-size: 44px"></i> Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="charts.html" style="font-size: 20px"><i class="fa fa-fw fa-graduation-cap" style="font-size: 44px; color: #00ccff"></i> R&D</a>
+                        </li>
+                        <li>
+                            <a href="tables.html" style="font-size: 20px"><i class="fa fa-fw fa-usd" style="font-size: 44px; color: #5cb85c"></i> Requisitions</a>
+                        </li>
+                        <li>
+                            <a href="forms.html" style="font-size: 20px"><i class="fa fa-fw fa-users" style="font-size: 44px; color: #9966ff"></i> Human Resources</a>
+                        </li>
+                        <li>
+                            <a href="forms.html" style="font-size: 20px"><i class="fa fa-fw fa-university" style="font-size: 44px; color: #f0ad4e"></i> Regulations</a>
+                        </li>
+                        <li>
+                            <a href="forms.html" style="font-size: 20px"><i class="fa fa-fw fa-file" style="font-size: 44px; color: #663300"></i> Contracts</a>
+                        </li>
+                        <li>
+                            <a href="forms.html" style="font-size: 20px"><i class="fa fa-fw fa-space-shuttle" style="font-size: 44px; color: #ffffff"></i> Expeditions</a>
+                        </li>
 
-        <environment names="Development">
-            <script src="~/lib/jquery/dist/jquery.js"></script>
-            <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-            <script src="~/js/site.js" asp-append-version="true"></script>
-        </environment>
-        <environment names="Staging,Production">
-            <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.1.4.min.js"
-                    asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                    asp-fallback-test="window.jQuery">
-            </script>
-            <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/bootstrap.min.js"
-                    asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                    asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
-            </script>
-            <script src="~/js/site.min.js" asp-append-version="true"></script>
-        </environment>
+                        <li>
+                            <a href="forms.html" style="font-size: 20px"><i class="fa fa-fw fa-arrow-circle-right" style="font-size: 44px; color: #d9534f"></i> End Turn <br/><br/> Turns remaining: @Model.Corporation.TurnsRemaining <br/><br/> Time until next: 55:55<br/></a>
+                            
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </nav>
+            <div id="page-wrapper">
+                @RenderBody()
+            </div>
+            <!-- /#page-wrapper -->
+
+            <hr/>
+            <footer>
+                <p>&copy; 2015 - Taylor</p>
+            </footer>
+      
+
+
+
 
         @RenderSection("scripts", required: false)
-    </body>
+    </div>
+    <!-- /#wrapper -->
+    
+</body>
 </html>
