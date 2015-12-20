@@ -16,7 +16,7 @@ using RPG.ViewModels.Account;
 namespace RPG.Controllers
 {
     [Authorize]
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -29,8 +29,10 @@ namespace RPG.Controllers
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
             ISmsSender smsSender,
-            ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory,
+            ApplicationDbContext db) : base(db)
         {
+            this.db = db;
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
@@ -53,17 +55,18 @@ namespace RPG.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
+        public IActionResult Login(LoginViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+                var result = _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false).Result;
                 if (result.Succeeded)
                 {
                     _logger.LogInformation(1, "User logged in.");
+
                     return RedirectToLocal(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
@@ -116,7 +119,7 @@ namespace RPG.Controllers
                     //    "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation(3, "User created a new account with password.");
-                    return RedirectToAction(nameof(HomeController.Index), "Home");
+                    return RedirectToAction("Create", "Corporations");
                 }
                 AddErrors(result);
             }

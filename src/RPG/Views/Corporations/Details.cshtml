@@ -1,0 +1,66 @@
+@model RPG.Models.Corporation
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Corporation</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Cash)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Cash)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PublicInterest)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PublicInterest)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PublicKey)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PublicKey)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.RD)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.RD)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Readiness)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Readiness)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Reputation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Reputation)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TurnsRemaining)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TurnsRemaining)
+        </dd>
+    </dl>
+</div>
+<p>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</p>

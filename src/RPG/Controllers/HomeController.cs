@@ -1,34 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Mvc;
+using RPG.Models;
 
 namespace RPG.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
+        public HomeController(ApplicationDbContext context) : base(context)
+        {
+            
+        }
+
         public IActionResult Index()
         {
-            return View();
-        }
-
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
-
-        public IActionResult Error()
-        {
+            if (User.IsSignedIn()) return RedirectToAction("Index", "Action");
             return View();
         }
     }

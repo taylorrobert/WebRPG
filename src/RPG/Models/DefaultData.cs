@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
-using RPG.Lib.Schema;
+using RPG.Models.SchemaModels;
 using RPG.Services;
 
 namespace RPG.Models
@@ -13,8 +13,6 @@ namespace RPG.Models
         public static void InitializeIfFreshDB(IServiceProvider serviceProvider)
         {
             var context = serviceProvider.GetService<ApplicationDbContext>();
-
-            SchemaService.ConfigureTestSchema(context);
 
             //If this table is empty, we know the DB is fresh
             if (context.Dev.FirstOrDefault() != null) return;
@@ -44,19 +42,22 @@ namespace RPG.Models
                 UserName = "taylorhill@gmail.com"
             };
 
+            var corporation = new Corporation()
+            {
+                Name = "SpaceCo Industries, Inc",
+                Cash = 10000,
+                PublicInterest = 50,
+                RD = 60,
+                Readiness = 70,
+                Reputation = 80,
+                TurnsRemaining = 10,
+                User = user
+            };
+
             context.Users.Add(user);
+            context.Corporations.Add(corporation);
 
-            //var character = new Character
-            //{
-            //    Level = 1,
-            //    Name = "Agamemnon",
-            //    User = user
-            //};
-            
-            //context.Characters.Add(character);
-
-
-            //user.ActiveCharacter = character;
+            ResearchTree.CreateTestTreeInDB(context, corporation);
 
             context.SaveChanges();
         }

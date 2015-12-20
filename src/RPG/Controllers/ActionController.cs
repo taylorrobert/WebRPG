@@ -1,49 +1,47 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.Rendering;
 using Microsoft.Data.Entity;
 using RPG.Models;
+using RPG.Models.SchemaModels;
 using RPG.Services;
-using RPG.ViewModels.Action;
+using ActionModel = RPG.Models.ActionModel;
 
 namespace RPG.Controllers
 {
+    [Authorize]
     public class ActionController : BaseController
     {
+        private DataCache data;
+
         public ActionController(ApplicationDbContext context) : base(context)
         {
             
         }
 
         // GET: Action
-        public IActionResult Index()
+        public IActionResult Index(ActionModel actionModel)
         {
-            if (!User.IsSignedIn()) return RedirectToAction("Login", "Account");
+            var model = ActionModel.NewActionModel(db, User.Identity.Name);
 
-            if (string.IsNullOrEmpty(_applicationUser.ActiveCharacter.PublicId)) return RedirectToAction("Index", "Characters");
-
-            var characters = DataService.GetCharactersByUser(_context, User.GetUserName().ToUpper());
-            if (!characters.Select(c => c.PublicId).ToList().Contains(_applicationUser.ActiveCharacter.PublicId)) return RedirectToAction("Index", "Characters");
-
-            var actionModel = new ActionModel();
-            actionModel.Character = _applicationUser.ActiveCharacter;
-
-            if (_applicationUser.ActiveCharacter.Region == null && _applicationUser.ActiveCharacter.Location == null)
-            {
-                //Character has never logged in before
-                SchemaService.ConfigureCharacterFirstLogin(_context, _applicationUser.ActiveCharacter, actionModel);
-                _context.SaveChanges();
-            }
+            data = new DataCache(db, model.User, model.Corporation);
+            data.RefreshCache();
+            model.DataCache = data;
             
-            return View(actionModel);
+
+            return View(model);
         }
 
-        public IActionResult CharacterSelect()
+        public IActionResult EndTurn(ClientActionModel clientModel)
         {
-            var characters = DataService.GetCharactersByUser(_context, User.GetUserName().ToUpper());
-            return View(characters);
+            var newModel = ActionModel.NewActionModel(db, User.Identity.Name);
+            newModel.DataCache = data;
+
+            var response = ActionService.PerformActions(db, clientModel, data);
+            return Json(newModel);
         }
     }
 }

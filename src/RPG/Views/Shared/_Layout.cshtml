@@ -2,30 +2,32 @@
 @using Microsoft.Extensions.Configuration
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>@ViewData["Title"] - RPG</title>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>@ViewData["Title"] - RPG</title>
 
-            <link rel="stylesheet"
-                  href="https://kendo.cdn.telerik.com/2015.3.1111/styles/kendo.common-nova.min.css" />
+    <link rel="stylesheet"
+          href="https://kendo.cdn.telerik.com/2015.3.1111/styles/kendo.common-nova.min.css"/>
 
-            <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2015.3.1111/styles/kendo.nova.min.css"/>
-            <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/css/bootstrap.min.css"/>
-            <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
-        
-            <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.1.4.min.js"></script>
-            <script src="https://kendo.cdn.telerik.com/2015.3.1111/js/kendo.all.min.js"></script>
-            <script src="https://kendo.cdn.telerik.com/2015.3.1111/js/kendo.aspnetmvc.min.js"></script>
-            <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2015.3.1111/styles/kendo.nova.min.css"/>
+    <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
 
-            <link href="//kendo.cdn.telerik.com/2015.3.1111/styles/kendo.common-material.min.css" rel="stylesheet" />
-            <link href="//kendo.cdn.telerik.com/2015.3.1111/styles/kendo.rtl.min.css" rel="stylesheet" />
-            <link href="//kendo.cdn.telerik.com/2015.3.1111/styles/kendo.material.min.css" rel="stylesheet" />
-   
-            <link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css">
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.1.4.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2015.3.1111/js/kendo.all.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2015.3.1111/js/kendo.aspnetmvc.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/bootstrap.min.js"></script>
+    <script src="~/js/site.js"></script>
 
-    </head>
+    <link href="//kendo.cdn.telerik.com/2015.3.1111/styles/kendo.common-material.min.css" rel="stylesheet"/>
+    <link href="//kendo.cdn.telerik.com/2015.3.1111/styles/kendo.rtl.min.css" rel="stylesheet"/>
+    <link href="//kendo.cdn.telerik.com/2015.3.1111/styles/kendo.material.min.css" rel="stylesheet"/>
+
+    <link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css">
+    
+
+</head>
 <body>
 
     <div id="wrapper">
@@ -138,29 +140,32 @@
                 <div class="collapse navbar-collapse navbar-ex1-collapse">
                     <ul class="nav navbar-nav side-nav">
                         <li class="active">
-                            <a href="index.html" style="font-size: 20px"><i class="fa fa-fw fa-dashboard" style="font-size: 44px"></i> Dashboard</a>
+                            <a href="#" onclick="showDashboard()" style="font-size: 20px"><i class="fa fa-fw fa-dashboard" style="font-size: 44px"></i> Dashboard</a>
                         </li>
                         <li>
-                            <a href="charts.html" style="font-size: 20px"><i class="fa fa-fw fa-graduation-cap" style="font-size: 44px; color: #00ccff"></i> R&D</a>
+                            <a href="#" onclick="showResearch()" style="font-size: 20px"><i class="fa fa-fw fa-graduation-cap" style="font-size: 44px; color: #00ccff"></i> R&D</a>
                         </li>
                         <li>
-                            <a href="tables.html" style="font-size: 20px"><i class="fa fa-fw fa-usd" style="font-size: 44px; color: #5cb85c"></i> Requisitions</a>
+                            <a href="#" style="font-size: 20px"><i class="fa fa-fw fa-usd" style="font-size: 44px; color: #5cb85c"></i> Requisitions</a>
                         </li>
                         <li>
-                            <a href="forms.html" style="font-size: 20px"><i class="fa fa-fw fa-users" style="font-size: 44px; color: #9966ff"></i> Human Resources</a>
+                            <a href="#" style="font-size: 20px"><i class="fa fa-fw fa-users" style="font-size: 44px; color: #9966ff"></i> Human Resources</a>
                         </li>
                         <li>
-                            <a href="forms.html" style="font-size: 20px"><i class="fa fa-fw fa-university" style="font-size: 44px; color: #f0ad4e"></i> Regulations</a>
+                            <a href="#" style="font-size: 20px"><i class="fa fa-fw fa-university" style="font-size: 44px; color: #f0ad4e"></i> Regulations</a>
                         </li>
                         <li>
-                            <a href="forms.html" style="font-size: 20px"><i class="fa fa-fw fa-file" style="font-size: 44px; color: #663300"></i> Contracts</a>
+                            <a href="#" style="font-size: 20px"><i class="fa fa-fw fa-file" style="font-size: 44px; color: #663300"></i> Contracts</a>
                         </li>
                         <li>
-                            <a href="forms.html" style="font-size: 20px"><i class="fa fa-fw fa-space-shuttle" style="font-size: 44px; color: #ffffff"></i> Expeditions</a>
+                            <a href="#" style="font-size: 20px"><i class="fa fa-fw fa-space-shuttle" style="font-size: 44px; color: #ffffff"></i> Expeditions</a>
                         </li>
 
                         <li>
-                            <a href="forms.html" style="font-size: 20px"><i class="fa fa-fw fa-arrow-circle-right" style="font-size: 44px; color: #d9534f"></i> End Turn <br/><br/> Turns remaining: @Model.Corporation.TurnsRemaining <br/><br/> Time until next: 55:55<br/></a>
+                            <a href="#" id="btnEndTurn" style="font-size: 20px"><i class="fa fa-fw fa-arrow-circle-right" style="font-size: 44px; color: #d9534f"></i> End Turn <br/><br/> Turns remaining: @if (Model != null && Model.Corporation != null)
+                                                                                                                                                                                            {
+                                                                                                                                                                                                @Model.Corporation.TurnsRemaining
+                                                                                                                                                                                            }<br/><br/> Time until next: 55:55<br/></a>
                             
                         </li>
                     </ul>

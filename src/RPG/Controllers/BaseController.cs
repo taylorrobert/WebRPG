@@ -16,24 +16,26 @@ namespace RPG.Controllers
         public BaseController(ApplicationDbContext context)
         {
             db = context;
+            //_applicationUser = db.Users.FirstOrDefault(u => u.Id == User.Identity.Name);
         }
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
+            base.OnActionExecuting(context);
             _applicationUser = db.Users.FirstOrDefault(u => u.Id == User.GetUserId());
 
             if (_applicationUser != null)
             {
                 _corporation = db.Corporations.FirstOrDefault(c => c.User.Id == _applicationUser.Id);
-                if (_corporation == null)
-                    context.Result = new RedirectToRouteResult(
-                        new RouteValueDictionary
-                        {
-                            {"Controller", "Corporations"},
-                            {"Action", "Create"}
-                        });
+                //if (_corporation == null)
+                //    context.Result = new RedirectToRouteResult(
+                //        new RouteValueDictionary
+                //        {
+                //            {"Controller", "Corporations"},
+                //            {"Action", "Create"}
+                //        });
             }
-            base.OnActionExecuting(context);
+            
         }
     }
 }
