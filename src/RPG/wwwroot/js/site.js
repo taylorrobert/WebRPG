@@ -18,9 +18,15 @@ function showDashboard() {
     showPane("dashboard");
 }
 
-function initView() {
+function initView(data) {
     console.log("initializing view");
-    $("#research").hide();
+    showDashboard();
+    $("#outputBox").html(data.Messages);
+    //$("#rocketryTree").html(data.ResearchTreeRocketry);
+}
+
+function refreshViews() {
+    location.reload();
 }
 
 
@@ -32,15 +38,16 @@ function addSingleAction(script, sender) {
 
 function endTurn(url) {
     console.log("Ending turn...");
-    console.log("Sending: " + clientModel);
+    console.log("Sending: " + JSON.stringify(clientModel));
     $.post(url, clientModel, function (data) {
         endTurnCallback(data);
     });
 }
-          
 
 function endTurnCallback(data) {
     console.log("New ActionModel returned. Model: " + JSON.stringify(data));
+    console.log("Messages returned: " + data.Messages);
+    refreshViews();
 }
                     
                 

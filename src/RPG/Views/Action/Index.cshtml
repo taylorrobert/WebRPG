@@ -6,7 +6,10 @@
 <script>
     var model = @Json.Serialize(Model);
     var clientModel = model.ClientModel;
-    $(document).ready(initView);
+    $(document).ready(function() {
+            initView(model);
+        }
+    );
     $("#btnEndTurn").click(function() { endTurn('@Url.Action("EndTurn")'); });
 </script>
 
@@ -28,7 +31,7 @@
     <div class="col-lg-12">
         <div class="alert alert-info alert-dismissable">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <i class="fa fa-info-circle"></i> <strong>Like SB Admin?</strong> Try out <a href="http://startbootstrap.com/template-overviews/sb-admin-2" class="alert-link">SB Admin 2</a> for additional features!
+            <i class="fa fa-info-circle"></i> <strong><div id="outputBox"></div></strong>
         </div>
     </div>
 </div>
@@ -239,11 +242,7 @@
 
 
 <div id="research">
-
-    <div class="col-lg-5" id="rocketryTree">
-        @Html.Raw(Model.ResearchTreeRocketry)
-    </div>
-</div>
+    @Html.Partial("Research");
 </div>
 
 

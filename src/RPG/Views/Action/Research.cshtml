@@ -1,31 +1,48 @@
 @model RPG.Models.ActionModel
 
-<form asp-action="Research">
-    <div class="form-horizontal">
-        <h4>ActionModel</h4>
-        <hr />
-        <div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>
-        <div class="form-group">
-            <label asp-for="Test" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Test" class="form-control" />
-                <span asp-validation-for="Test" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+
+<div class="row" id="activeResearch">
+    <div class="col-lg-4">
+        <div class="alert alert-info">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <i class="fa fa-info-circle"></i>
+            <div id="outputBox"><strong>
+                    Active Research: @if (Model.DataCache.ActiveResearchNodes.Any())
+                                     {
+                                         foreach (var n in Model.DataCache.ActiveResearchNodes)
+                                         {
+                                             <br/>
+                                             <br/>
+                                             @n.Name
+                                             @:, @n.GetTurnsToResearch(@Model.Corporation.RD) remaining
+                                         }
+                                     }
+                </strong>
             </div>
         </div>
     </div>
-</form>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
-@section Scripts {
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-}
+<div class="col-lg-8" id="rocketryTree">
+
+</div>
+
+<div class='panel panel-default'>
+    <div class='panel - heading'>
+        <h3 class='panel - title'>
+            <i class='fa fa-money fa - fw'></i>
+            Rocketry
+        </h3>
+    </div>
+    <div class='panel - body'>
+        <div class='table - responsive'>
+            <table class='table table-bordered table - hover table - striped'>
+
+                <thead><tr><th>Name</th><th>Prerequisites</th><th>Unlocks</th><th>Research Cost</th><th>Cash Cost</th><th>Actions</th></tr></thead>
+                <tbody>
+                @Html.Raw(Model.ResearchTreeRocketryBody)
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -54,8 +54,17 @@ namespace RPG.Models
                 User = user
             };
 
+            var log = new LogMessage()
+            {
+                Corporation = corporation,
+                Message = "Test log message",
+                TimeStamp = DateTime.Now
+            };
+
+
             context.Users.Add(user);
             context.Corporations.Add(corporation);
+            context.LogMessages.Add(log);
 
             ResearchTree.CreateTestTreeInDB(context, corporation);
 

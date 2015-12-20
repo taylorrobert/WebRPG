@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Builder;
+﻿using System;
+using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Data.Entity;
@@ -47,6 +48,8 @@ namespace RPG
             services.AddKendo();
 
             services.AddMvc();
+            services.AddCaching();
+            services.AddSession();
             
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
@@ -96,7 +99,7 @@ namespace RPG
             app.UseIdentity();
 
             // To configure external authentication please see http://go.microsoft.com/fwlink/?LinkID=532715
-
+            app.UseSession();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

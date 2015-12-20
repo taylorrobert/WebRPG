@@ -15,6 +15,8 @@ namespace RPG.Models
         public DbSet<Corporation> Corporations { get; set; } 
         public DbSet<ResearchNode> ResearchNodes { get; set; }
         public DbSet<LearnedResearchNode> LearnedResearchNodes { get; set; } 
+        public DbSet<ActiveResearchNode> ActiveResearchNodes { get; set; } 
+        public DbSet<LogMessage> LogMessages { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)

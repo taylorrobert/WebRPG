@@ -15,8 +15,6 @@ namespace RPG.Controllers
     [Authorize]
     public class ActionController : BaseController
     {
-        private DataCache data;
-
         public ActionController(ApplicationDbContext context) : base(context)
         {
             
@@ -27,10 +25,10 @@ namespace RPG.Controllers
         {
             var model = ActionModel.NewActionModel(db, User.Identity.Name);
 
-            data = new DataCache(db, model.User, model.Corporation);
+            var data = new DataCache(db, model.User, model.Corporation);
             data.RefreshCache();
             model.DataCache = data;
-            
+            model.Messages = LogService.GetLogs(db, model.Corporation);
 
             return View(model);
         }
@@ -38,10 +36,20 @@ namespace RPG.Controllers
         public IActionResult EndTurn(ClientActionModel clientModel)
         {
             var newModel = ActionModel.NewActionModel(db, User.Identity.Name);
+            var data = new DataCache(db, newModel.User, newModel.Corporation);
             newModel.DataCache = data;
 
-            var response = ActionService.PerformActions(db, clientModel, data);
+            ActionService.PerformActions(db, clientModel, data);
+            ActionService.ResolveState(db, clientModel, data);
+
+            data.RefreshCache();
             return Json(newModel);
+        }
+
+        [HttpPost]
+        public IActionResult Research(ActionModel actionModel)
+        {
+            return PartialView("Research", actionModel);
         }
     }
 }
