@@ -2,26 +2,49 @@
 
 
 <div class="row" id="activeResearch">
-    <div class="col-lg-4">
-        <div class="alert alert-info">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <i class="fa fa-info-circle"></i>
-            <div id="outputBox"><strong>
-                    Active Research: @if (Model.DataCache.ActiveResearchNodes.Any())
-                                     {
-                                         foreach (var n in Model.DataCache.ActiveResearchNodes)
-                                         {
-                                             <br/>
-                                             <br/>
-                                             @n.Name
-                                             @:, @n.GetTurnsToResearch(@Model.Corporation.RD) remaining
-                                         }
-                                     }
-                </strong>
-            </div>
+    <div class="col-lg-12">
+       
+
+            <div class="row">
+                @if (Model.DataCache.ActiveResearchNodes.Any())
+                {
+                    Model.DataCache.RefreshCache();
+                    foreach (var n in Model.DataCache.ActiveResearchNodes)
+                    {
+
+                        <div class="col-lg-2 col-md-2">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-xs-3">
+                                            <i class="fa fa-flask fa-5x"></i>
+                                        </div>
+                                        <div class="col-xs-9 text-right">
+                                            <div class="huge">@n.ResearchNode.GetRemainingTurnsToResearch(Model.DataCache.Corporation.RD, n.RDInvested)</div>
+                                            <div>Turns remaining</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="#">
+                                    <div class="panel-footer">
+                                        <span class="pull-left">@n.ResearchNode.Name</span>
+                                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+
+
+
+                    }
+                }
+
+            
         </div>
     </div>
 </div>
+
 
 <div class="col-lg-8" id="rocketryTree">
 
