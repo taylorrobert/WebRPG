@@ -75,6 +75,8 @@ namespace RPG.Migrations
                     Intelligence = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     Position = table.Column<string>(nullable: true),
+                    SeverancePayout = table.Column<int>(nullable: false),
+                    SigningBonus = table.Column<int>(nullable: false),
                     TurnSalary = table.Column<int>(nullable: false)
                 },
                 constraints: table =>

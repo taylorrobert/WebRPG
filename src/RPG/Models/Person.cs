@@ -17,5 +17,7 @@ namespace RPG.Models
         public int Experience { get; set; } //Bonus to Readiness 
         public int Business { get; set; } //Bonus to cash sources, such as loans, stock
         public int Fitness { get; set; } //Related to the possibility of things going wrong in missions
+        public int SigningBonus { get; set; }
+        public int SeverancePayout { get; set; }
     }
 }

@@ -257,6 +257,10 @@ namespace RPG.Migrations
 
                     b.Property<string>("Position");
 
+                    b.Property<int>("SeverancePayout");
+
+                    b.Property<int>("SigningBonus");
+
                     b.Property<int>("TurnSalary");
 
                     b.HasKey("Id");

@@ -14,6 +14,8 @@
                 <th>Description</th>
                 <th>Position</th>
                 <th>Salary/turn</th>
+                <th>Signing Bonus</th>
+                <th>Severance Pay</th>
                 <th>Experience</th>
                 <th>Intelligence</th>
                 <th>Fitness</th>
@@ -26,7 +28,9 @@
                     <td>@r.Person.Name</td>
                     <td>@r.Person.Description</td>
                     <td>@r.Person.Position</td>
-                    <td>@r.Person.TurnSalary</td>
+                    <td>$@r.Person.TurnSalary</td>
+                    <td>$@r.Person.SigningBonus</td>
+                    <td>$@r.Person.SeverancePayout</td>
                     <td>@r.Person.Experience</td>
                     <td>@r.Person.Intelligence</td>
                     <td>@r.Person.Fitness</td>
@@ -36,7 +40,7 @@
 
                         <button class='btn btn-default' data-toggle='button' type='button' onclick='addSingleAction("@ActionService.GetActionStringForView(Constants.ActionTypeResearch, "Action=" + Constants.FirePerson + ":" + r.Person.Name,
                                                                                                                          Constants.Empty);", this)'>
-                            Fire
+                            Fire ($@r.Person.SeverancePayout)
                         </button>
                     </td>
                 </tr>
@@ -53,6 +57,8 @@
                 <th>Description</th>
                 <th>Position</th>
                 <th>Salary/turn</th>
+                <th>Signing Bonus</th>
+                <th>Severance Pay</th>
                 <th>Experience</th>
                 <th>Intelligence</th>
                 <th>Fitness</th>
@@ -65,7 +71,9 @@
                     <td>@r.Person.Name</td>
                     <td>@r.Person.Description</td>
                     <td>@r.Person.Position</td>
-                    <td>@r.Person.TurnSalary</td>
+                    <td>$@r.Person.TurnSalary</td>
+                    <td>$@r.Person.SigningBonus</td>
+                    <td>$@r.Person.SeverancePayout</td>
                     <td>@r.Person.Experience</td>
                     <td>@r.Person.Intelligence</td>
                     <td>@r.Person.Fitness</td>
@@ -75,7 +83,7 @@
 
                         <button class='btn btn-default' data-toggle='button' type='button' onclick='addSingleAction("@ActionService.GetActionStringForView(Constants.ActionTypeResearch, "Action=" + Constants.HirePerson + ":" + r.Person.Name,
                                                                                                                          Constants.Empty);", this)'>
-                            Hire
+                            Hire ($@(r.Person.SigningBonus + r.Person.TurnSalary))
                         </button>
                     </td>
                 </tr>

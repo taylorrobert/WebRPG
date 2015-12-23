@@ -142,18 +142,19 @@ namespace RPG.Services
                             LogService.Log(db, data.Corporation, "Already hired " + currentObjectName + "! Action could not be completed.");
                             continue;
                         }
-                        if (data.Corporation.Cash < entity.Person.TurnSalary)
+                        if ((data.Corporation.Cash + entity.Person.SigningBonus) < entity.Person.TurnSalary)
                         {
                             LogService.Log(db, data.Corporation, "Not enough funds to hire " + entity.Person.Name + "!");
                             continue;
                         }
                         entity.Hired = true;
+                        data.Corporation.Cash -= entity.Person.SigningBonus;
                         data.Corporation.PublicInterest += entity.Person.Celebrity ? Constants.Constants.CelebrityBonus : 0;
                         data.Corporation.Reputation += entity.Person.Celebrity ? Constants.Constants.CelebrityBonus : 0;
                         data.Corporation.RD += entity.Person.Intelligence;
                         data.Corporation.Readiness += entity.Person.Experience;
                         data.Corporation.BusinessMultiplier += (double)entity.Person.Business / 100;
-                        LogService.Log(db, data.Corporation, "Hired " + currentObjectName + " as " + entity.Person.Position + " for $" + entity.Person.TurnSalary + " per turn.");
+                        LogService.Log(db, data.Corporation, "Hired " + currentObjectName + " as " + entity.Person.Position + " for $" + entity.Person.TurnSalary + " salary and a signing bonus of $" + entity.Person.SigningBonus + ".");
                     }
                     //#FirePerson
                     else if (specifierSplit[0] == Constants.Constants.FirePerson)
@@ -172,12 +173,13 @@ namespace RPG.Services
                             continue;
                         }
                         entity.Hired = false;
+                        data.Corporation.Cash -= entity.Person.SeverancePayout;
                         data.Corporation.PublicInterest -= entity.Person.Celebrity ? Constants.Constants.CelebrityBonus : 0;
                         data.Corporation.Reputation -= entity.Person.Celebrity ? Constants.Constants.CelebrityBonus : 0;
                         data.Corporation.RD -= entity.Person.Intelligence;
                         data.Corporation.Readiness -= entity.Person.Experience;
                         data.Corporation.BusinessMultiplier -= (double)entity.Person.Business / 100;
-                        LogService.Log(db, data.Corporation, "Fired " + currentObjectName + ", saving $" + entity.Person.TurnSalary + " per turn.");
+                        LogService.Log(db, data.Corporation, "Fired " + currentObjectName + ", saving $" + entity.Person.TurnSalary + " per turn, with a severance payout of $" + entity.Person.SeverancePayout + ".");
                     }
                 }
             }

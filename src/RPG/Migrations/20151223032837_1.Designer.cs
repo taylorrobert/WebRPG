@@ -8,7 +8,7 @@ using RPG.Models;
 namespace RPG.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20151223031524_1")]
+    [Migration("20151223032837_1")]
     partial class _1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -257,6 +257,10 @@ namespace RPG.Migrations
                     b.Property<string>("Name");
 
                     b.Property<string>("Position");
+
+                    b.Property<int>("SeverancePayout");
+
+                    b.Property<int>("SigningBonus");
 
                     b.Property<int>("TurnSalary");
 

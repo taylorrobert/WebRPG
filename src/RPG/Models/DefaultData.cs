@@ -65,7 +65,9 @@ namespace RPG.Models
                 Business = 5,
                 Experience = 5,
                 Fitness = 5,
-                Intelligence = 5
+                Intelligence = 5,
+                SigningBonus = 1000,
+                SeverancePayout = 1000
             };
 
             var person2 = new Person()
@@ -78,7 +80,10 @@ namespace RPG.Models
                 Business = 5,
                 Experience = 5,
                 Fitness = 2,
-                Intelligence = 2
+                Intelligence = 2,
+                SigningBonus = 800,
+                SeverancePayout = 800
+
             };
 
             var person3 = new Person()
@@ -91,7 +96,9 @@ namespace RPG.Models
                 Business = 0,
                 Experience = 7,
                 Fitness = 4,
-                Intelligence = 2
+                Intelligence = 2,
+                SigningBonus = 1000,
+                SeverancePayout = 1000
             };
 
             var persons = new List<Person> {person1, person2, person3};
