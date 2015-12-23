@@ -14,7 +14,8 @@ namespace RPG.Services
             {
                 Corporation = corporation,
                 Message = message,
-                TimeStamp = DateTime.Now
+                TimeStamp = DateTime.Now,
+                TurnCount = corporation.TurnCount
             };
             db.LogMessages.Add(msg);
         }
@@ -22,13 +23,16 @@ namespace RPG.Services
         public static string FormatMessages(List<LogMessage> messages)
         {
             //Handle formatting the messages for the client side
-            var formattedMessages = messages[0].Message;
+            if (!messages.Any()) return "";
+            var formattedMessages = @"<a href='#' class='list-group-item'><i class='fa fa-fw fa-check'></i>" + messages[0].Message + "</a>"; 
 
             foreach (var s in messages)
             {
                 if (messages.IndexOf(s) > 0)
                 {
-                    formattedMessages += @"<br><br>" + s.Message;
+                    formattedMessages +=
+                        @"<a href='#' class='list-group-item'><i class='fa fa-fw fa-check'></i>"+ s.Message +"</a>";
+
                 }
             }
 
@@ -38,10 +42,14 @@ namespace RPG.Services
         public static string GetLogs(ApplicationDbContext db, Corporation corp)
         {
             var logs = db.LogMessages.Where(l => l.Corporation.Id == corp.Id).OrderByDescending(l => l.TimeStamp).ToList();
-            
-            //db.Remove(logs);
 
             return FormatMessages(logs);
+        }
+
+        public static string GetLogsByTurn(ApplicationDbContext db, Corporation corp, long turnNumber)
+        {
+            var turns = db.LogMessages.Where(l => l.Corporation.Id == corp.Id && l.TurnCount == turnNumber).ToList();
+            return FormatMessages(turns);
         }
     }
 }

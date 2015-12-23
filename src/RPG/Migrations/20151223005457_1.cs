@@ -62,6 +62,26 @@ namespace RPG.Migrations
                     table.PrimaryKey("PK_Dev", x => x.Id);
                 });
             migrationBuilder.CreateTable(
+                name: "Person",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Business = table.Column<int>(nullable: false),
+                    Celebrity = table.Column<bool>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
+                    Experience = table.Column<int>(nullable: false),
+                    Fitness = table.Column<int>(nullable: false),
+                    Intelligence = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Position = table.Column<string>(nullable: true),
+                    TurnSalary = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Person", x => x.Id);
+                });
+            migrationBuilder.CreateTable(
                 name: "ResearchNode",
                 columns: table => new
                 {
@@ -177,26 +197,19 @@ namespace RPG.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ActiveResearchNodeId = table.Column<int>(nullable: true),
-                    ActiveResearchNodeRDInvested = table.Column<string>(nullable: true),
                     Cash = table.Column<long>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     PublicInterest = table.Column<int>(nullable: false),
                     RD = table.Column<int>(nullable: false),
                     Readiness = table.Column<int>(nullable: false),
                     Reputation = table.Column<int>(nullable: false),
+                    TurnCount = table.Column<long>(nullable: false),
                     TurnsRemaining = table.Column<int>(nullable: false),
                     UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Corporation", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Corporation_ResearchNode_ActiveResearchNodeId",
-                        column: x => x.ActiveResearchNodeId,
-                        principalTable: "ResearchNode",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Corporation_ApplicationUser_UserId",
                         column: x => x.UserId,
@@ -232,6 +245,32 @@ namespace RPG.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
             migrationBuilder.CreateTable(
+                name: "CorporationPerson",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CorporationId = table.Column<int>(nullable: true),
+                    Hired = table.Column<bool>(nullable: false),
+                    PersonId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CorporationPerson", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CorporationPerson_Corporation_CorporationId",
+                        column: x => x.CorporationId,
+                        principalTable: "Corporation",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_CorporationPerson_Person_PersonId",
+                        column: x => x.PersonId,
+                        principalTable: "Person",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+            migrationBuilder.CreateTable(
                 name: "LogMessage",
                 columns: table => new
                 {
@@ -239,7 +278,8 @@ namespace RPG.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CorporationId = table.Column<int>(nullable: true),
                     Message = table.Column<string>(nullable: true),
-                    TimeStamp = table.Column<DateTime>(nullable: false)
+                    TimeStamp = table.Column<DateTime>(nullable: false),
+                    TurnCount = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -297,11 +337,13 @@ namespace RPG.Migrations
             migrationBuilder.DropTable("AspNetUserLogins");
             migrationBuilder.DropTable("AspNetUserRoles");
             migrationBuilder.DropTable("ActiveResearchNode");
+            migrationBuilder.DropTable("CorporationPerson");
             migrationBuilder.DropTable("Dev");
             migrationBuilder.DropTable("LogMessage");
             migrationBuilder.DropTable("LearnedResearchNode");
             migrationBuilder.DropTable("SystemData");
             migrationBuilder.DropTable("AspNetRoles");
+            migrationBuilder.DropTable("Person");
             migrationBuilder.DropTable("Corporation");
             migrationBuilder.DropTable("ResearchNode");
             migrationBuilder.DropTable("AspNetUsers");

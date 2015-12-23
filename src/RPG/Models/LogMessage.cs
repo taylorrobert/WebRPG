@@ -11,5 +11,6 @@ namespace RPG.Models
         public Corporation Corporation { get; set; }
         public string Message { get; set; }
         public DateTime TimeStamp { get; set; }
+        public long TurnCount { get; set; }
     }
 }

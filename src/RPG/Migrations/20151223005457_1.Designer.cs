@@ -8,7 +8,7 @@ using RPG.Models;
 namespace RPG.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20151220222629_1")]
+    [Migration("20151223005457_1")]
     partial class _1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -170,10 +170,6 @@ namespace RPG.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("ActiveResearchNodeId");
-
-                    b.Property<string>("ActiveResearchNodeRDInvested");
-
                     b.Property<long>("Cash");
 
                     b.Property<string>("Name");
@@ -186,9 +182,25 @@ namespace RPG.Migrations
 
                     b.Property<int>("Reputation");
 
+                    b.Property<long>("TurnCount");
+
                     b.Property<int>("TurnsRemaining");
 
                     b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+                });
+
+            modelBuilder.Entity("RPG.Models.CorporationPerson", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("CorporationId");
+
+                    b.Property<bool>("Hired");
+
+                    b.Property<int?>("PersonId");
 
                     b.HasKey("Id");
                 });
@@ -217,6 +229,34 @@ namespace RPG.Migrations
                     b.Property<string>("Message");
 
                     b.Property<DateTime>("TimeStamp");
+
+                    b.Property<long>("TurnCount");
+
+                    b.HasKey("Id");
+                });
+
+            modelBuilder.Entity("RPG.Models.Person", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Business");
+
+                    b.Property<bool>("Celebrity");
+
+                    b.Property<string>("Description");
+
+                    b.Property<int>("Experience");
+
+                    b.Property<int>("Fitness");
+
+                    b.Property<int>("Intelligence");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Position");
+
+                    b.Property<int>("TurnSalary");
 
                     b.HasKey("Id");
                 });
@@ -306,13 +346,20 @@ namespace RPG.Migrations
 
             modelBuilder.Entity("RPG.Models.Corporation", b =>
                 {
-                    b.HasOne("RPG.Models.SchemaModels.ResearchNode")
-                        .WithMany()
-                        .HasForeignKey("ActiveResearchNodeId");
-
                     b.HasOne("RPG.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("RPG.Models.CorporationPerson", b =>
+                {
+                    b.HasOne("RPG.Models.Corporation")
+                        .WithMany()
+                        .HasForeignKey("CorporationId");
+
+                    b.HasOne("RPG.Models.Person")
+                        .WithMany()
+                        .HasForeignKey("PersonId");
                 });
 
             modelBuilder.Entity("RPG.Models.LogMessage", b =>

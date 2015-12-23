@@ -47,24 +47,82 @@ namespace RPG.Models
                 Name = "SpaceCo Industries, Inc",
                 Cash = 10000,
                 PublicInterest = 50,
-                RD = 60,
+                RD = 20,
                 Readiness = 70,
                 Reputation = 80,
                 TurnsRemaining = 10,
                 User = user
             };
 
-            var log = new LogMessage()
+            var person1 = new Person()
             {
-                Corporation = corporation,
-                Message = "Test log message",
-                TimeStamp = DateTime.Now
+                Name = "Hans Grosserman",
+                Description = "One wily German dude.",
+                Position = "Engineer",
+                TurnSalary = 100,
+                Celebrity = false,
+                Business = 0,
+                Experience = 3,
+                Fitness = 2,
+                Intelligence = 6
             };
 
+            var person2 = new Person()
+            {
+                Name = "Jim Johannsen",
+                Description = "A smart businessman.",
+                Position = "Financier",
+                TurnSalary = 80,
+                Celebrity = true,
+                Business = 5,
+                Experience = 5,
+                Fitness = 2,
+                Intelligence = 2
+            };
+
+            var person3 = new Person()
+            {
+                Name = "Li Chen",
+                Description = "A guy from China who is really good at putting shit together.",
+                Position = "Technician",
+                TurnSalary = 80,
+                Celebrity = false,
+                Business = 0,
+                Experience = 7,
+                Fitness = 4,
+                Intelligence = 2
+            };
+
+            var persons = new List<Person> {person1, person2, person3};
+
+
+            var cp1 = new CorporationPerson()
+            {
+                Corporation = corporation,
+                Hired = false,
+                Person = person1
+            };
+
+            var cp2 = new CorporationPerson()
+            {
+                Corporation = corporation,
+                Hired = false,
+                Person = person2
+            };
+
+            var cp3 = new CorporationPerson()
+            {
+                Corporation = corporation,
+                Hired = false,
+                Person = person3
+            };
+
+            var corpPersons = new List<CorporationPerson> { cp1, cp2, cp3};
 
             context.Users.Add(user);
             context.Corporations.Add(corporation);
-            context.LogMessages.Add(log);
+            persons.ForEach(p => context.Persons.Add(p));
+            corpPersons.ForEach(c => context.CorporationPersons.Add(c));
 
             ResearchTree.CreateTestTreeInDB(context, corporation);
 

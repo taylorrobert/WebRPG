@@ -1,0 +1,89 @@
+﻿@using System.Threading.Tasks
+@using RPG.Constants
+@using RPG.Services
+@model RPG.Models.ActionModel
+
+
+<div class="col-lg-10">
+    <div class="panel panel-default">
+
+        <div class="panel-heading">Current Employees</div>
+        <table class="table">
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Position</th>
+                <th>Salary/turn</th>
+                <th>Experience</th>
+                <th>Intelligence</th>
+                <th>Fitness</th>
+                <th>Business</th>
+                <th>Celebrity</th>
+            </tr>
+            @foreach (var r in CorporationPerson.GetPeopleByHiredStatus(true, Model.DataCache.CorporationPersons))
+            {
+                <tr>
+                    <td>@r.Person.Name</td>
+                    <td>@r.Person.Description</td>
+                    <td>@r.Person.Position</td>
+                    <td>@r.Person.TurnSalary</td>
+                    <td>@r.Person.Experience</td>
+                    <td>@r.Person.Intelligence</td>
+                    <td>@r.Person.Fitness</td>
+                    <td>@r.Person.Business</td>
+                    <td>@r.Person.Celebrity</td>
+                    <td>
+
+                        <button class='btn btn-default' data-toggle='button' type='button' onclick='addSingleAction("@ActionService.GetActionStringForView(Constants.ActionTypeResearch, "Action=" + Constants.FirePerson + ":" + r.Person.Name,
+                                                                                                                         Constants.Empty);", this)'>
+                            Fire
+                        </button>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+
+    <div class="panel panel-default">
+
+        <div class="panel-heading">Recruits</div>
+        <table class="table">
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Position</th>
+                <th>Salary/turn</th>
+                <th>Experience</th>
+                <th>Intelligence</th>
+                <th>Fitness</th>
+                <th>Business</th>
+                <th>Celebrity</th>
+            </tr>
+            @foreach (var r in CorporationPerson.GetPeopleByHiredStatus(false, Model.DataCache.CorporationPersons))
+            {
+                <tr>
+                    <td>@r.Person.Name</td>
+                    <td>@r.Person.Description</td>
+                    <td>@r.Person.Position</td>
+                    <td>@r.Person.TurnSalary</td>
+                    <td>@r.Person.Experience</td>
+                    <td>@r.Person.Intelligence</td>
+                    <td>@r.Person.Fitness</td>
+                    <td>@r.Person.Business</td>
+                    <td>@r.Person.Celebrity</td>
+                    <td>
+
+                        <button class='btn btn-default' data-toggle='button' type='button' onclick='addSingleAction("@ActionService.GetActionStringForView(Constants.ActionTypeResearch, "Action=" + Constants.HirePerson + ":" + r.Person.Name,
+                                                                                                                         Constants.Empty);", this)'>
+                            Hire
+                        </button>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+
+
+
+
+</div>

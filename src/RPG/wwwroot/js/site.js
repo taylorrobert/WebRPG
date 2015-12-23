@@ -1,16 +1,22 @@
 ﻿function hideAllPanes() {
-    $("#dashboard").fadeOut(500);
-    $("#research").fadeOut(500);
+    $("#dashboard").fadeOut(50);
+    $("#research").fadeOut(50);
+    $("#humanResources").fadeOut(50);
 }
 
 function showPane(paneName) {
     hideAllPanes();
-    $("#" + paneName).fadeIn(1000);
+    $("#" + paneName).fadeIn(50);
 }
 
 function showResearch() {
     console.log("Showing research");
     showPane("research");
+}
+
+function showHumanResources() {
+    console.log("Showing human resources");
+    showPane("humanResources");
 }
 
 function showDashboard() {
@@ -22,11 +28,10 @@ function initView(data) {
     console.log("initializing view");
     showDashboard();
     $("#outputBox").html(data.Messages);
-    //$("#rocketryTree").html(data.ResearchTreeRocketry);
 }
 
 function refreshViews() {
-    location.reload();
+    window.location.reload();
 }
 
 

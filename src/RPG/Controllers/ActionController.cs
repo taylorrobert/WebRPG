@@ -28,7 +28,14 @@ namespace RPG.Controllers
             var data = new DataCache(db, model.User, model.Corporation);
             data.RefreshCache();
             model.DataCache = data;
-            model.Messages = LogService.GetLogs(db, model.Corporation);
+
+            if (model.Corporation.TurnCount > 1)
+            {
+                model.Messages = LogService.GetLogsByTurn(db, model.Corporation, model.Corporation.TurnCount - 1);
+            }
+
+            data.RefreshCache();
+            model.BuildViewItems(db);
 
             return View(model);
         }
@@ -43,13 +50,10 @@ namespace RPG.Controllers
             ActionService.ResolveState(db, clientModel, data);
 
             data.RefreshCache();
-            return Json(newModel);
-        }
 
-        [HttpPost]
-        public IActionResult Research(ActionModel actionModel)
-        {
-            return PartialView("Research", actionModel);
+            newModel.BuildViewItems(db);
+
+            return Json(newModel);
         }
     }
 }
