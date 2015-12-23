@@ -8,7 +8,7 @@ using RPG.Models;
 namespace RPG.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20151223005457_1")]
+    [Migration("20151223031524_1")]
     partial class _1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -169,6 +169,8 @@ namespace RPG.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<double>("BusinessMultiplier");
 
                     b.Property<long>("Cash");
 

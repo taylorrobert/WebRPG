@@ -169,6 +169,8 @@ namespace RPG.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<double>("BusinessMultiplier");
+
                     b.Property<long>("Cash");
 
                     b.Property<string>("Name");

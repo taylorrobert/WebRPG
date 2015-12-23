@@ -12,9 +12,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "RPG", "src\RPG\RPG.xproj", "{E806B186-2748-48DA-83E0-4FDE4AEEBA29}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "save", "save", "{AC1FF0E5-F00D-4507-9CCF-DFEF1D4801F4}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{9B0F0525-519A-453B-8866-F82F51BB243E}"
 	ProjectSection(SolutionItems) = preProject
-		..\..\Users\taylo_000\Downloads\startbootstrap-sb-admin-1.0.4.zip = ..\..\Users\taylo_000\Downloads\startbootstrap-sb-admin-1.0.4.zip
+		Documents\EF migrations.txt = Documents\EF migrations.txt
 	EndProjectSection
 EndProject
 Global

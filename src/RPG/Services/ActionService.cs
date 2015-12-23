@@ -148,6 +148,11 @@ namespace RPG.Services
                             continue;
                         }
                         entity.Hired = true;
+                        data.Corporation.PublicInterest += entity.Person.Celebrity ? Constants.Constants.CelebrityBonus : 0;
+                        data.Corporation.Reputation += entity.Person.Celebrity ? Constants.Constants.CelebrityBonus : 0;
+                        data.Corporation.RD += entity.Person.Intelligence;
+                        data.Corporation.Readiness += entity.Person.Experience;
+                        data.Corporation.BusinessMultiplier += (double)entity.Person.Business / 100;
                         LogService.Log(db, data.Corporation, "Hired " + currentObjectName + " as " + entity.Person.Position + " for $" + entity.Person.TurnSalary + " per turn.");
                     }
                     //#FirePerson
@@ -167,6 +172,11 @@ namespace RPG.Services
                             continue;
                         }
                         entity.Hired = false;
+                        data.Corporation.PublicInterest -= entity.Person.Celebrity ? Constants.Constants.CelebrityBonus : 0;
+                        data.Corporation.Reputation -= entity.Person.Celebrity ? Constants.Constants.CelebrityBonus : 0;
+                        data.Corporation.RD -= entity.Person.Intelligence;
+                        data.Corporation.Readiness -= entity.Person.Experience;
+                        data.Corporation.BusinessMultiplier -= (double)entity.Person.Business / 100;
                         LogService.Log(db, data.Corporation, "Fired " + currentObjectName + ", saving $" + entity.Person.TurnSalary + " per turn.");
                     }
                 }

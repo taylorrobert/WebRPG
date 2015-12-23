@@ -46,11 +46,12 @@ namespace RPG.Models
             {
                 Name = "SpaceCo Industries, Inc",
                 Cash = 10000,
-                PublicInterest = 50,
+                PublicInterest = 20,
                 RD = 20,
-                Readiness = 70,
-                Reputation = 80,
+                Readiness = 20,
+                Reputation = 20,
                 TurnsRemaining = 10,
+                BusinessMultiplier = 1.00,
                 User = user
             };
 
@@ -61,10 +62,10 @@ namespace RPG.Models
                 Position = "Engineer",
                 TurnSalary = 100,
                 Celebrity = false,
-                Business = 0,
-                Experience = 3,
-                Fitness = 2,
-                Intelligence = 6
+                Business = 5,
+                Experience = 5,
+                Fitness = 5,
+                Intelligence = 5
             };
 
             var person2 = new Person()

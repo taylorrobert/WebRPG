@@ -197,6 +197,7 @@ namespace RPG.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    BusinessMultiplier = table.Column<double>(nullable: false),
                     Cash = table.Column<long>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     PublicInterest = table.Column<int>(nullable: false),

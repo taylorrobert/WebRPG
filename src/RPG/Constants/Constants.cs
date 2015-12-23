@@ -51,5 +51,8 @@ namespace RPG.Constants
         //End KobolScript Keywords--------------------------------
 
 
+
+        public const int CelebrityBonus = 10;
+
     }
 }
