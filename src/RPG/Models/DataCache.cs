@@ -29,6 +29,11 @@ namespace RPG.Models
         public List<ContractInMemory> ContractsInMemory { get; set; } 
         public List<CorporationContract> CorporationContracts { get; set; }
 
+        public List<ContractInMemory> PreviousContracts
+        {
+            get { return ContractsInMemory.Where(c => c.HasCorrespondingCorporationContract && !c.Active).ToList(); }
+        }
+
         public List<ContractInMemory> AcceptedContractsInMemory
         {
             get { return ContractsInMemory.Where(c => c.HasCorrespondingCorporationContract && c.Active && c.Accepted).ToList(); }

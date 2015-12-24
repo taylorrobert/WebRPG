@@ -187,13 +187,69 @@ namespace RPG.Services
                         var contract = data.CorporationContracts.FirstOrDefault(c => c.Contract.Name == contractName);
                         if (contract == null || contract.Accepted || !contract.Active || contract.Complete)
                         {
-                            LogService.Log(db, data.Corporation, "Unable to begin contract " + contractName);
+                            LogService.Log(db, data.Corporation, "Unable to begin contract " + contractName + ".");
                             continue;
                         }
+
+                        LogService.Log(db, data.Corporation, "Accepted contract " + contractName + ".");
+
                         contract.Accepted = true;
                         contract.Active = true;
                         contract.Complete = false;
                         contract.NodeNumber = 1;
+                    }
+                    if (specifierSplit[0] == Constants.Constants.AdvanceContract)
+                    {
+                        var contractName = specifierSplit[1];
+                        var corpContract =
+                            data.CorporationContracts.FirstOrDefault(cc => cc.Contract.Name == contractName);
+                        var memContract = data.ContractsInMemory.FirstOrDefault(mc => mc.Name == contractName);
+
+                        if (corpContract == null || memContract == null || !corpContract.Active ||
+                            !corpContract.Accepted || corpContract.Complete)
+                        {
+                            LogService.Log(db, data.Corporation, "Cannot advance contract " + contractName + ".");
+                            continue;
+                        }
+
+                        var node =
+                            memContract.ContractNodes.FirstOrDefault(cn => cn.NodeNumber == corpContract.NodeNumber);
+
+                        if (node == null)
+                        {
+                            LogService.Log(db, data.Corporation, "Invalid contract node identifier. Cannot advance contract state for " + contractName + ".");
+                            continue;
+                        }
+
+                        var param = currentActionDict[Constants.Constants.ActionParameter];
+                        var option = node.ContractOptions.FirstOrDefault(o => o.OptionCommand == param);
+
+                        if (option == null)
+                        {
+                            LogService.Log(db, data.Corporation, "Invalid contract option parameter. Cannot advance contract " + contractName + ".");
+                            continue;
+                        }
+
+                        if (option.NextNode == Constants.Constants.Complete)
+                        {
+                            LogService.Log(db, data.Corporation, "Completed contract " + contractName + ".");
+                            corpContract.Complete = true;
+                            corpContract.Active = false;
+                            continue;
+                        }
+                        else if (option.NextNode == Constants.Constants.Fail)
+                        {
+                            LogService.Log(db, data.Corporation, "Failed contract " + contractName + ".");
+                            corpContract.Complete = false;
+                            corpContract.Active = false;
+                            continue;
+                        }
+                        else
+                        {
+                            //The quest isn't being completed or failed at this point,
+                            //so change the current contract node to the advanced state.
+                            corpContract.NodeNumber = Convert.ToInt32(option.NextNode);
+                        }
                     }
                 }
             }

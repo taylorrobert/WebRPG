@@ -45,7 +45,7 @@ namespace RPG.Services
 
             var triggerCondition =
                 splitByPipes.FirstOrDefault(sbp => sbp.StartsWith(Constants.Constants.TriggerCondition));
-            var triggerInner = triggerCondition.Split('='); //[1].Split('{', '}')[0].Split(':');
+            var triggerInner = triggerCondition.Split('=');
             var triggerinner2 = triggerInner[1].Split('{', '}');
             var triggerInner3 = triggerinner2[1].Split(':');
             var triggerAttributeAndValue = triggerInner3[1].Split(',');
@@ -88,7 +88,9 @@ namespace RPG.Services
 
         public static void MoveContractsToActive(ApplicationDbContext db, DataCache data)
         {
-            foreach (var c in data.ContractsInMemory)
+            var newContracts = false;
+            var exclude = data.CorporationContracts.Select(cc => cc.Contract.Name).ToList();
+            foreach (var c in data.ContractsInMemory.Where(c => !exclude.Contains(c.Name)))
             {
                 //HasAttributeGreaterThan
                 if (c.TriggerCondition.Condition == Constants.Constants.HasAttributeGreaterThan)
@@ -108,9 +110,12 @@ namespace RPG.Services
                             Corporation = data.Corporation
                         };
                         db.CorporationContracts.Add(active);
+                        newContracts = true;
                     }
                 }
             }
+
+            if (newContracts) LogService.Log(db, data.Corporation, "New contracts are available.");
         }
     }
 }

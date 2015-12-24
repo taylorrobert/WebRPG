@@ -46,6 +46,7 @@ namespace RPG.Constants
         public const string LearnByCash = "LearnByCash";
         public const string SetActiveResearch = "SetActiveResearch";
         public const string Empty = "Empty";
+        public const string Complete = "Complete";
 
         //Conditionals
         public const string HasAttributeGreaterThan = "HasAttributeGreaterThan";

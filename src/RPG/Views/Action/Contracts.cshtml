@@ -29,10 +29,13 @@
                     <td>@r.Active</td>
                     <td>@r.ContractNodes.FirstOrDefault(n => n.NodeNumber == r.NodeNumber).Text</td>
                     <td>
-                        <button class='btn btn-default' data-toggle='button' type='button' onclick='addSingleAction("@ActionService.GetActionStringForView(Constants.Contract, "Action=" + Constants.AdvanceContract + ":" + r.Name,
-                                                                                                                         r.NodeNumber.ToString());", this)'>
-                            Advance Quest
-                        </button>
+                        @foreach (var o in r.ContractNodes.FirstOrDefault(n => n.NodeNumber == r.NodeNumber).ContractOptions)
+                        {
+                            <button class='btn btn-default' data-toggle='button' type='button' onclick='addSingleAction("@ActionService.GetActionStringForView(Constants.Contract, "Action=" + Constants.AdvanceContract + ":" + r.Name, o.OptionCommand);", this)'>
+                                @o.OptionText
+                            </button>
+                        }
+
                     </td>
                 </tr>
             }
@@ -64,8 +67,39 @@
                     <td>
                         <button class='btn btn-default' data-toggle='button' type='button' onclick='addSingleAction("@ActionService.GetActionStringForView(Constants.Contract, "Action=" + Constants.StartContract + ":" + r.Name,
                                                                                                                          "Empty");", this)'>
-                            Advance Quest
+                            Accept
                         </button>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+
+
+    <div class="panel panel-default">
+
+        <div class="panel-heading">Previous Contracts</div>
+        <table class="table">
+            <tr>
+                <th>Name</th>
+                <th>NodeNumber</th>
+                <th>Has Corp Contract</th>
+                <th>Accepted</th>
+                <th>Active</th>
+                <th>Description</th>
+
+            </tr>
+            @foreach (var r in Model.DataCache.PreviousContracts)
+            {
+                <tr>
+                    <td>@r.Name</td>
+                    <td>@r.NodeNumber</td>
+                    <td>@r.HasCorrespondingCorporationContract</td>
+                    <td>@r.Accepted</td>
+                    <td>@r.Active</td>
+                    <td>@r.ContractNodes.FirstOrDefault(n => n.NodeNumber == r.NodeNumber).Text</td>
+                    <td>
+                        
                     </td>
                 </tr>
             }
