@@ -2,7 +2,7 @@ open Developer Command Prompt for VS2015
 navigate to c:\Repos\WebRPG\src\RPG
 
 Run:
-dnx ef migrations add [migration name]
+dnx ef migrations add 1
 dnx ef database update
 
 if broken:

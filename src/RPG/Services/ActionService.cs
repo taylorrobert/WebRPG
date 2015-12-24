@@ -181,6 +181,20 @@ namespace RPG.Services
                         data.Corporation.BusinessMultiplier -= (double)entity.Person.Business / 100;
                         LogService.Log(db, data.Corporation, "Fired " + currentObjectName + ", saving $" + entity.Person.TurnSalary + " per turn, with a severance payout of $" + entity.Person.SeverancePayout + ".");
                     }
+                    if (specifierSplit[0] == Constants.Constants.StartContract)
+                    {
+                        var contractName = specifierSplit[1];
+                        var contract = data.CorporationContracts.FirstOrDefault(c => c.Contract.Name == contractName);
+                        if (contract == null || contract.Accepted || !contract.Active || contract.Complete)
+                        {
+                            LogService.Log(db, data.Corporation, "Unable to begin contract " + contractName);
+                            continue;
+                        }
+                        contract.Accepted = true;
+                        contract.Active = true;
+                        contract.Complete = false;
+                        contract.NodeNumber = 1;
+                    }
                 }
             }
 
@@ -216,6 +230,10 @@ namespace RPG.Services
                 data.Corporation.Cash -= p.Person.TurnSalary;
                 if (data.Corporation.Cash < 0) LogService.Log(db, data.Corporation, "You are unabel to pay your employees! When they don't get paid, their happiness drops, and they might quit.");
             }
+
+
+            //Resolve Contracts
+            ContractService.MoveContractsToActive(db, data);
 
             data.Corporation.TurnCount++;
             db.SaveChanges();

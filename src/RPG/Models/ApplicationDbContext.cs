@@ -19,6 +19,8 @@ namespace RPG.Models
         public DbSet<LogMessage> LogMessages { get; set; }
         public DbSet<Person> Persons { get; set; }
         public DbSet<CorporationPerson> CorporationPersons { get; set; }
+        public DbSet<Contract> Contracts { get; set; } 
+        public DbSet<CorporationContract> CorporationContracts { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)

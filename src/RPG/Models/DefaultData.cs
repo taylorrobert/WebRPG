@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
@@ -125,12 +126,19 @@ namespace RPG.Models
                 Person = person3
             };
 
+            var contract = new Contract()
+            {
+                Name = "The Road to Damnation",
+                Script = File.ReadAllText(@"scripts\contracts\testcontract.txt")
+            };
+
             var corpPersons = new List<CorporationPerson> { cp1, cp2, cp3};
 
             context.Users.Add(user);
             context.Corporations.Add(corporation);
             persons.ForEach(p => context.Persons.Add(p));
             corpPersons.ForEach(c => context.CorporationPersons.Add(c));
+            context.Contracts.Add(contract);
 
             ResearchTree.CreateTestTreeInDB(context, corporation);
 

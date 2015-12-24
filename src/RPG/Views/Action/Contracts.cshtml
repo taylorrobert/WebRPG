@@ -1,0 +1,78 @@
+﻿@using System.Threading.Tasks
+@using RPG.Constants
+@using RPG.Services
+@model RPG.Models.ActionModel
+
+
+
+<div class="col-lg-10">
+    <div class="panel panel-default">
+        @{ Model.DataCache.RefreshCache(); }
+        <div class="panel-heading">Accepted Contracts</div>
+        <table class="table">
+            <tr>
+                <th>Name</th>
+                <th>NodeNumber</th>
+                <th>Has Corp Contract</th>
+                <th>Accepted</th>
+                <th>Active</th>
+                <th>Description</th>
+                
+            </tr>
+            @foreach (var r in Model.DataCache.AcceptedContractsInMemory)
+            {
+                <tr>
+                    <td>@r.Name</td>
+                    <td>@r.NodeNumber</td>
+                    <td>@r.HasCorrespondingCorporationContract</td>
+                    <td>@r.Accepted</td>
+                    <td>@r.Active</td>
+                    <td>@r.ContractNodes.FirstOrDefault(n => n.NodeNumber == r.NodeNumber).Text</td>
+                    <td>
+                        <button class='btn btn-default' data-toggle='button' type='button' onclick='addSingleAction("@ActionService.GetActionStringForView(Constants.Contract, "Action=" + Constants.AdvanceContract + ":" + r.Name,
+                                                                                                                         r.NodeNumber.ToString());", this)'>
+                            Advance Quest
+                        </button>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+
+    <div class="panel panel-default">
+
+        <div class="panel-heading">Available Contracts</div>
+        <table class="table">
+            <tr>
+                <th>Name</th>
+                <th>NodeNumber</th>
+                <th>Has Corp Contract</th>
+                <th>Accepted</th>
+                <th>Active</th>
+                <th>Description</th>
+
+            </tr>
+            @foreach (var r in Model.DataCache.AvailableContracts)
+            {
+                <tr>
+                    <td>@r.Name</td>
+                    <td>@r.NodeNumber</td>
+                    <td>@r.HasCorrespondingCorporationContract</td>
+                    <td>@r.Accepted</td>
+                    <td>@r.Active</td>
+                    <td>@r.ContractNodes.FirstOrDefault(n => n.NodeNumber == r.NodeNumber).Text</td>
+                    <td>
+                        <button class='btn btn-default' data-toggle='button' type='button' onclick='addSingleAction("@ActionService.GetActionStringForView(Constants.Contract, "Action=" + Constants.StartContract + ":" + r.Name,
+                                                                                                                         "Empty");", this)'>
+                            Advance Quest
+                        </button>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+
+
+
+
+</div>

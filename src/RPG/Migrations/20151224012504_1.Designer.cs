@@ -8,7 +8,7 @@ using RPG.Models;
 namespace RPG.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20151223032837_1")]
+    [Migration("20151224012504_1")]
     partial class _1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -165,6 +165,18 @@ namespace RPG.Migrations
                     b.HasAnnotation("Relational:TableName", "AspNetUsers");
                 });
 
+            modelBuilder.Entity("RPG.Models.Contract", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Script");
+
+                    b.HasKey("Id");
+                });
+
             modelBuilder.Entity("RPG.Models.Corporation", b =>
                 {
                     b.Property<int>("Id")
@@ -189,6 +201,26 @@ namespace RPG.Migrations
                     b.Property<int>("TurnsRemaining");
 
                     b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+                });
+
+            modelBuilder.Entity("RPG.Models.CorporationContract", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("Accepted");
+
+                    b.Property<bool>("Active");
+
+                    b.Property<bool>("Complete");
+
+                    b.Property<int?>("ContractId");
+
+                    b.Property<int?>("CorporationId");
+
+                    b.Property<int>("NodeNumber");
 
                     b.HasKey("Id");
                 });
@@ -355,6 +387,17 @@ namespace RPG.Migrations
                     b.HasOne("RPG.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("RPG.Models.CorporationContract", b =>
+                {
+                    b.HasOne("RPG.Models.Contract")
+                        .WithMany()
+                        .HasForeignKey("ContractId");
+
+                    b.HasOne("RPG.Models.Corporation")
+                        .WithMany()
+                        .HasForeignKey("CorporationId");
                 });
 
             modelBuilder.Entity("RPG.Models.CorporationPerson", b =>

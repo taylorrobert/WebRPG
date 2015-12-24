@@ -2,6 +2,7 @@
     $("#dashboard").fadeOut(50);
     $("#research").fadeOut(50);
     $("#humanResources").fadeOut(50);
+    $("#contracts").fadeOut(50);
 }
 
 function showPane(paneName) {
@@ -17,6 +18,11 @@ function showResearch() {
 function showHumanResources() {
     console.log("Showing human resources");
     showPane("humanResources");
+}
+
+function showContracts() {
+    console.log("Showing contracts");
+    showPane("contracts");
 }
 
 function showDashboard() {

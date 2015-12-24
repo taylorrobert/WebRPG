@@ -6,6 +6,7 @@ using Microsoft.AspNet.Http;
 using Microsoft.Data.Entity;
 using Newtonsoft.Json;
 using RPG.Models.SchemaModels;
+using RPG.Services;
 
 namespace RPG.Models
 {
@@ -24,6 +25,19 @@ namespace RPG.Models
         public List<ActiveResearchNode> ActiveResearchNodes { get; set; }
         public List<Person> Persons { get; set; }
         public List<CorporationPerson> CorporationPersons { get; set; }
+        public List<Contract> Contracts { get; set; } 
+        public List<ContractInMemory> ContractsInMemory { get; set; } 
+        public List<CorporationContract> CorporationContracts { get; set; }
+
+        public List<ContractInMemory> AcceptedContractsInMemory
+        {
+            get { return ContractsInMemory.Where(c => c.HasCorrespondingCorporationContract && c.Active && c.Accepted).ToList(); }
+        }
+
+        public List<ContractInMemory> AvailableContracts
+        {
+            get { return ContractsInMemory.Where(c => c.HasCorrespondingCorporationContract && c.Active && !c.Accepted).ToList(); }
+        } 
 
         public DataCache(ApplicationDbContext context, ApplicationUser user, Corporation corporation)
         {
@@ -47,19 +61,25 @@ namespace RPG.Models
 
         public void RefreshCache()
         {
-            RefreshResearchNodes();
+            RefreshStaticItems();
+
             RefreshLearnedResearchNodes();
             RefreshLearnableResearchNodeNames();
             RefreshActiveResearchNodesVirtualToSchema();
             RefreshActiveResearchNodesRealNodes();
-            RefreshPersons();
             RefreshCorporationPersons();
+            RefreshCorporationContracts();
+            RefreshContractsInMemory();
         }
 
-        public void RefreshResearchNodes()
+        public void RefreshStaticItems()
         {
-            ResearchNodes = db.ResearchNodes.Where(n => true).ToList();
+            RefreshResearchNodes();
+            RefreshPersons();
+            RefreshContracts();
         }
+
+        
 
         public void RefreshLearnedResearchNodes()
         {
@@ -93,14 +113,35 @@ namespace RPG.Models
             ActiveResearchNodes = db.ActiveResearchNodes.Where(n => n.Corporation.Id == Corporation.Id).ToList();
         }
 
+        public void RefreshCorporationPersons()
+        {
+            CorporationPersons = db.CorporationPersons.Where(p => p.Corporation.Id == Corporation.Id).ToList();
+        }
+
+        public void RefreshCorporationContracts()
+        {
+            CorporationContracts = db.CorporationContracts.Where(c => c.Corporation.Id == Corporation.Id).ToList();
+        }
+
+        public void RefreshContractsInMemory()
+        {
+            ContractsInMemory = ContractService.ParseContractFiles(Contracts, CorporationContracts);
+        }
+
+        //Static, don't change
+        public void RefreshContracts()
+        {
+            Contracts = db.Contracts.Where(c => true).ToList();
+        }
+
         public void RefreshPersons()
         {
             Persons = db.Persons.Where(p => true).ToList();
         }
 
-        public void RefreshCorporationPersons()
+        public void RefreshResearchNodes()
         {
-            CorporationPersons = db.CorporationPersons.Where(p => p.Corporation.Id == Corporation.Id).ToList();
+            ResearchNodes = db.ResearchNodes.Where(n => true).ToList();
         }
     }
 }

@@ -48,6 +48,19 @@ namespace RPG.Migrations
                     table.PrimaryKey("PK_ApplicationUser", x => x.Id);
                 });
             migrationBuilder.CreateTable(
+                name: "Contract",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true),
+                    Script = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Contract", x => x.Id);
+                });
+            migrationBuilder.CreateTable(
                 name: "Dev",
                 columns: table => new
                 {
@@ -248,6 +261,35 @@ namespace RPG.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
             migrationBuilder.CreateTable(
+                name: "CorporationContract",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Accepted = table.Column<bool>(nullable: false),
+                    Active = table.Column<bool>(nullable: false),
+                    Complete = table.Column<bool>(nullable: false),
+                    ContractId = table.Column<int>(nullable: true),
+                    CorporationId = table.Column<int>(nullable: true),
+                    NodeNumber = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CorporationContract", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CorporationContract_Contract_ContractId",
+                        column: x => x.ContractId,
+                        principalTable: "Contract",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_CorporationContract_Corporation_CorporationId",
+                        column: x => x.CorporationId,
+                        principalTable: "Corporation",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+            migrationBuilder.CreateTable(
                 name: "CorporationPerson",
                 columns: table => new
                 {
@@ -340,12 +382,14 @@ namespace RPG.Migrations
             migrationBuilder.DropTable("AspNetUserLogins");
             migrationBuilder.DropTable("AspNetUserRoles");
             migrationBuilder.DropTable("ActiveResearchNode");
+            migrationBuilder.DropTable("CorporationContract");
             migrationBuilder.DropTable("CorporationPerson");
             migrationBuilder.DropTable("Dev");
             migrationBuilder.DropTable("LogMessage");
             migrationBuilder.DropTable("LearnedResearchNode");
             migrationBuilder.DropTable("SystemData");
             migrationBuilder.DropTable("AspNetRoles");
+            migrationBuilder.DropTable("Contract");
             migrationBuilder.DropTable("Person");
             migrationBuilder.DropTable("Corporation");
             migrationBuilder.DropTable("ResearchNode");

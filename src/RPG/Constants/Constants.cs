@@ -25,10 +25,13 @@ namespace RPG.Constants
         public const string Action = "Action";
         public const string ActionType = "ActionType";
         public const string ActionParameter = "ActionParameter";
+        public const string TriggerCondition = "TriggerCondition";
+        public const string Node = "Node";
 
         //Action Types
         public const string ActionTypeResearch = "Research";
         public const string HR = "HR";
+        public const string Contract = "Contract";
 
         //Actions
         public const string AlterAttribute = "AlterAttribute";
@@ -36,6 +39,8 @@ namespace RPG.Constants
         public const string CancelActiveResearch = "CancelActiveResearch";
         public const string HirePerson = "HirePerson";
         public const string FirePerson = "FirePerson";
+        public const string AdvanceContract = "AdvanceContract";
+        public const string StartContract = "StartContract";
 
         //Parameters
         public const string LearnByCash = "LearnByCash";

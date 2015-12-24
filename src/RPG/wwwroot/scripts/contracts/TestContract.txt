@@ -1,0 +1,23 @@
+﻿TriggerCondition={
+	HasAttributeGreaterThan:RD,20
+}|
+Node0#
+{
+	Text=Want to start your very first contract?;
+	Option=yes:1:Yes, give it to me;
+	Option=no:0:No, fuck off.
+}|
+
+Node1#
+{
+	Text=Here is a sample description of a sample contract. This is the first choice. Is it yes or no?;
+	Option=yes:2:Yes, duh.;
+	Option=no:0:No, thanks. Go backward to the last choice.
+}|
+Node2#
+{
+	Text=Ok, here's the last option.;
+	Option=one:Complete:Just finish the damn thing already.;
+	Option=goback:1:No, go back to the last option.;
+	Option=startover:0:Start over please.
+}|
